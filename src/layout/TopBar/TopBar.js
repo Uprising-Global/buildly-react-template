@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
@@ -10,6 +10,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import logo from '@assets/topbar-logo.png';
 import { logout } from '@redux/authuser/authuser.actions';
 import { routes } from '@routes/routesConstants';
+import { checkForAdmin, checkForGlobalAdmin } from '@utils/utilMethods';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -38,9 +39,19 @@ const TopBar = ({
   history,
   location,
   dispatch,
+  data,
 }) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (data && data.data) {
+      const user = data.data;
+      setLoggedIn(true);
+      setIsAdmin(checkForAdmin(user) || checkForGlobalAdmin(user));
+    }
+  }, [data]);
 
   const handleLogoutClick = () => {
     dispatch(logout());
@@ -54,16 +65,20 @@ const TopBar = ({
           <img src={logo} className={classes.logo} alt="Company text logo" />
         </Link>
 
+        {isLoggedIn && (
         <div className={classes.menuRight}>
+          {isAdmin && (
           <Link to={routes.USER_MANAGEMENT}>
             <IconButton aria-label="user-management" color="inherit">
               <GroupIcon fontSize="large" className={classes.menuIcon} />
             </IconButton>
           </Link>
+          )}
           <IconButton aria-label="logout" color="inherit" onClick={handleLogoutClick}>
             <ExitToAppIcon fontSize="large" className={classes.menuIcon} />
           </IconButton>
         </div>
+        )}
       </Toolbar>
     </AppBar>
   );

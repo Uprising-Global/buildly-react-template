@@ -7,17 +7,23 @@ import UserManagement from '@pages/UserManagement/UserManagement';
 import MatContainer from '@mui/material/Container';
 import makeStyles from '@mui/styles/makeStyles';
 import { routes } from '@routes/routesConstants';
+import { oauthService } from '@modules/oauth/oauth.service';
+import Login from '@pages/Login/Login';
+import Register from '@pages/Register/Register';
+import ForgotPassword from '@pages/ForgotPassword/ForgotPassword';
+import ResetPassword from '@pages/ResetPassword/ResetPassword';
+import { PrivateRoute } from '@routes/Private.route';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%',
+    // height: '100%',
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
     },
   },
   content: {
     flexGrow: 1,
-    height: '100%',
+    // height: '100%',
     paddingTop: '6em',
   },
 }));
@@ -38,11 +44,19 @@ const Container = ({ location, history }) => {
         <MatContainer className={classes.content}>
           <Route
             exact
-            path={routes.APP}
-            render={() => <Redirect to={routes.DASHBOARD} />}
+            path="/"
+            render={() => (oauthService.hasValidAccessToken() ? (
+              <Redirect to={routes.DASHBOARD} />
+            ) : (
+              <Redirect to={routes.LOGIN} />
+            ))}
           />
-          <Route path={routes.DASHBOARD} component={Profile} />
-          <Route path={routes.USER_MANAGEMENT} component={UserManagement} />
+          <Route path={routes.LOGIN} component={Login} />
+          <Route path={routes.REGISTER} component={Register} />
+          <Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
+          <Route path={routes.RESET_PASSWORD} component={ResetPassword} />
+          <PrivateRoute path={routes.DASHBOARD} component={Profile} />
+          <PrivateRoute path={routes.USER_MANAGEMENT} component={UserManagement} />
         </MatContainer>
       </UserContext.Provider>
     </div>

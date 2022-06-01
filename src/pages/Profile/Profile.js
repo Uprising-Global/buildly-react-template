@@ -3,7 +3,7 @@ import React from 'react';
 
 const Profile = () => (
   <Typography variant="body1">
-    Welcome to the Buildly Dashboard
+    Welcome to the Uprising Dashboard
   </Typography>
 );
 

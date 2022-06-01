@@ -15,14 +15,10 @@ import Container from '@mui/material/Container';
 import { useInput } from '@hooks/useInput';
 import { login, validateResetPasswordToken } from '@redux/authuser/authuser.actions';
 import { validators } from '@utils/validators';
-import logo from '@assets/buildly-logo.png';
 import { routes } from '@routes/routesConstants';
 import Copyright from '@components/Copyright/Copyright';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: theme.spacing(8),
-  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -131,10 +127,9 @@ const Login = ({ dispatch, loading, history }) => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Card className={classes.root} variant="outlined">
+      <Card variant="outlined">
         <CardContent>
           <div className={classes.paper}>
-            <img src={logo} className={classes.logo} alt="Company logo" />
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
