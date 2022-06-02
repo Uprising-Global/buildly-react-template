@@ -4,10 +4,7 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
 import CircularProgress from '@mui/material/CircularProgress';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import Container from '@mui/material/Container';
@@ -15,15 +12,10 @@ import { useInput } from '@hooks/useInput';
 import { resetPassword } from '@redux/authuser/authuser.actions';
 import Grid from '@mui/material/Grid';
 import { validators } from '@utils/validators';
-import logo from '@assets/buildly-logo.png';
 import { isMobile } from '@utils/mediaQuery';
 import { routes } from '@routes/routesConstants';
-import Copyright from '@components/Copyright/Copyright';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    paddingTop: theme.spacing(8),
-  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -39,11 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
-  logo: {
-    maxWidth: '20rem',
-    width: '100%',
-    marginBottom: theme.spacing(3),
+    borderRadius: theme.spacing(2.125),
+    width: 'max-content',
+    padding: '0.3rem 2rem',
   },
   buttonProgress: {
     position: 'absolute',
@@ -53,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
   },
   loadingWrapper: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     position: 'relative',
+    textAlign: 'center',
   },
 }));
 
@@ -133,88 +124,84 @@ const ResetPassword = ({
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <CssBaseline />
-      <Card variant="outlined">
-        <CardContent>
-          <div className={classes.paper}>
-            <img src={logo} className={classes.logo} alt="Company logo" />
-            <Typography component="h1" variant="h5">
-              Reset your Password
-            </Typography>
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
-              <Grid container spacing={isMobile() ? 0 : 2}>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="New Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    className={classes.textField}
-                    error={formError.password && formError.password.error}
-                    helperText={
-                      formError.password ? formError.password.message : ''
-                    }
-                    onBlur={(e) => handleBlur(e, 'required', password)}
-                    {...password.bind}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="re_password"
-                    label="Confirm Password"
-                    name="re_password"
-                    type="password"
-                    autoComplete="re_password"
-                    className={classes.textField}
-                    error={formError.re_password && formError.re_password.error}
-                    helperText={
-                      formError.re_password ? formError.re_password.message : ''
-                    }
-                    onBlur={(e) => handleBlur(e, 'confirm', re_password)}
-                    {...re_password.bind}
-                  />
-                </Grid>
-              </Grid>
-              <div className={classes.loadingWrapper}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  disabled={loading || submitDisabled()}
-                >
-                  Submit
-                </Button>
-                {loading && (
-                  <CircularProgress
-                    size={24}
-                    className={classes.buttonProgress}
-                  />
-                )}
-              </div>
-              <Grid container>
-                <Grid item>
-                  <Link href={routes.LOGIN} variant="body2" color="secondary">
-                    Go back to Sign in
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Reset your Password
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <Grid container spacing={isMobile() ? 0 : 2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="standard"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="New Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                className={classes.textField}
+                error={formError.password && formError.password.error}
+                helperText={
+                  formError.password ? formError.password.message : ''
+                }
+                onBlur={(e) => handleBlur(e, 'required', password)}
+                {...password.bind}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="standard"
+                margin="normal"
+                required
+                fullWidth
+                id="re_password"
+                label="Confirm Password"
+                name="re_password"
+                type="password"
+                autoComplete="re_password"
+                className={classes.textField}
+                error={formError.re_password && formError.re_password.error}
+                helperText={
+                  formError.re_password ? formError.re_password.message : ''
+                }
+                onBlur={(e) => handleBlur(e, 'confirm', re_password)}
+                {...re_password.bind}
+              />
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs align="right">
+              <Link
+                href={routes.REGISTER}
+                variant="body2"
+                color="primary"
+              >
+                Go back to Sign in
+              </Link>
+            </Grid>
+          </Grid>
+          <div className={classes.loadingWrapper}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disabled={loading || submitDisabled()}
+            >
+              Reset Password
+            </Button>
+            {loading && (
+              <CircularProgress
+                size={24}
+                className={classes.buttonProgress}
+              />
+            )}
           </div>
-        </CardContent>
-      </Card>
-      <Box mt={8} mb={1}>
-        <Copyright />
-      </Box>
+        </form>
+      </div>
     </Container>
   );
 };

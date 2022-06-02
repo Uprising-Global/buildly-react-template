@@ -3,11 +3,13 @@ import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 const theme = createTheme(({
   palette: {
     primary: {
-      main: '#ef2563',
+      main: '#6216ff',
+      hover: '#fff',
       contrastText: '#d6d6d6',
     },
     secondary: {
-      main: '#6216ff',
+      main: '#ef2563',
+      hover: '#fff',
       contrastText: '#d6d6d6',
     },
   },
@@ -28,6 +30,14 @@ const theme = createTheme(({
           fontFamily: 'Archivo',
           fontWeight: 200,
           fontSize: '1rem',
+        },
+      },
+    },
+    MuiSnackbarContent: {
+      styleOverrides: {
+        root: {
+          color: '#000',
+          backgroundColor: 'transparent',
         },
       },
     },

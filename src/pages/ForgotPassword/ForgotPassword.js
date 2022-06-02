@@ -5,10 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import Container from '@mui/material/Container';
@@ -17,22 +14,13 @@ import {
   sendPasswordResetLink,
 } from '@redux/authuser/authuser.actions';
 import { validators } from '@utils/validators';
-import logo from '@assets/buildly-logo.png';
 import { routes } from '@routes/routesConstants';
-import Copyright from '@components/Copyright/Copyright';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: theme.spacing(8),
-  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%',
@@ -40,10 +28,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
-  logo: {
-    width: '12.5rem',
-    maxWidth: '100%',
+    borderRadius: theme.spacing(2.125),
+    width: 'max-content',
+    padding: '0.3rem 2rem',
   },
   textField: {
     minHeight: '5rem',
@@ -57,8 +44,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
   },
   loadingWrapper: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     position: 'relative',
+    textAlign: 'center',
+  },
+  link: {
+    textDecoration: 'none',
   },
 }));
 
@@ -120,71 +111,66 @@ const ForgotPassword = ({ dispatch, loading, history }) => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          <div className={classes.paper}>
-            <img src={logo} className={classes.logo} alt="Company logo" />
-            <Typography component="h1" variant="h5" gutterBottom>
-              Enter your registered Email
-            </Typography>
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Registered email"
-                name="email"
-                autoComplete="email"
-                className={classes.textField}
-                error={error.email && error.email.error}
-                helperText={error && error.email ? error.email.message : ''}
-                onBlur={(e) => handleBlur(e, 'email', email)}
-                {...email.bind}
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5" gutterBottom>
+          Enter your registered Email
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <TextField
+            variant="standard"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Registered email"
+            name="email"
+            autoComplete="email"
+            className={classes.textField}
+            error={error.email && error.email.error}
+            helperText={error && error.email ? error.email.message : ''}
+            onBlur={(e) => handleBlur(e, 'email', email)}
+            {...email.bind}
+          />
+          <Grid container>
+            <Grid item xs align="right">
+              <Link href={routes.LOGIN} variant="body2" color="primary">
+                Go back to Sign in
+              </Link>
+            </Grid>
+          </Grid>
+          <div className={classes.loadingWrapper}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disabled={loading || submitDisabled()}
+            >
+              Send Email
+            </Button>
+            {loading && (
+              <CircularProgress
+                size={24}
+                className={classes.buttonProgress}
               />
-
-              <div className={classes.loadingWrapper}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  disabled={loading || submitDisabled()}
-                >
-                  Submit
-                </Button>
-                {loading && (
-                  <CircularProgress
-                    size={24}
-                    className={classes.buttonProgress}
-                  />
-                )}
-              </div>
-              <Grid container>
-                <Grid item xs>
-                  <Link href={routes.LOGIN} variant="body2" color="secondary">
-                    Go back to Sign in
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link
-                    href={routes.REGISTER}
-                    variant="body2"
-                    color="secondary"
-                  >
-                    Don't have an account? Register
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
+            )}
           </div>
-        </CardContent>
-      </Card>
-      <Box mt={8} mb={1}>
-        <Copyright />
-      </Box>
+          <Grid container>
+            <Grid item xs align="center">
+              {"Don't have an account? "}
+              <Link
+                href={routes.REGISTER}
+                variant="body2"
+                color="primary"
+                className={classes.link}
+              >
+                Sign up here
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
     </Container>
   );
 };
