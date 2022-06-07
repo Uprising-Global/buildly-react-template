@@ -26,7 +26,9 @@ const theme = createTheme(({
       styleOverrides: {
         body: {
           padding: 0,
-          color: '#d6d6d',
+          height: '100vh',
+          backgroundColor: '#091314',
+          color: '#d6d6d6',
           fontFamily: 'Archivo',
           fontWeight: 200,
           fontSize: '1rem',
@@ -39,6 +41,44 @@ const theme = createTheme(({
           color: '#000',
           backgroundColor: 'transparent',
         },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: 'rgba(255, 255, 255, 0.7)',
+          '&.Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.5)',
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: '#fff',
+          borderBottom: '1px solid #d6d6d6',
+        },
+        input: {
+          '&.Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.5)',
+            WebkitTextFillColor: 'unset !important',
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          '&.Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.5)',
+            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+          },
+        },
+        // '& .Mui-disabled': {
+        //   color: 'rgba(255, 255, 255, 0.5) !important',
+        //   backgroundColor: 'rgba(255, 255, 255, 0.3) !important',
+        // },
       },
     },
   },

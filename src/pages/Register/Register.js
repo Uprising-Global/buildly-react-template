@@ -14,8 +14,16 @@ import Grid from '@mui/material/Grid';
 import { validators } from '@utils/validators';
 import { isMobile } from '@utils/mediaQuery';
 import { routes } from '@routes/routesConstants';
+import backImage from '@assets/background-image.png';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    padding: '6em 0',
+    backgroundImage: `url(${backImage})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -130,170 +138,172 @@ const Register = ({
   };
 
   return (
-    <Container component="main" maxWidth="sm">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Register
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={isMobile() ? 0 : 3}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="standard"
-                margin="normal"
-                required
-                fullWidth
-                id="first_name"
-                label="First Name"
-                name="first_name"
-                autoComplete="first_name"
-                error={formError.first_name && formError.first_name.error}
-                helperText={
-                  formError.first_name ? formError.first_name.message : ''
-                }
-                className={classes.textField}
-                onBlur={(e) => handleBlur(e, 'required', first_name)}
-                {...first_name.bind}
-              />
+    <div className={classes.root}>
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Register
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <Grid container spacing={isMobile() ? 0 : 3}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  variant="standard"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="first_name"
+                  label="First Name"
+                  name="first_name"
+                  autoComplete="first_name"
+                  error={formError.first_name && formError.first_name.error}
+                  helperText={
+                    formError.first_name ? formError.first_name.message : ''
+                  }
+                  className={classes.textField}
+                  onBlur={(e) => handleBlur(e, 'required', first_name)}
+                  {...first_name.bind}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  variant="standard"
+                  margin="normal"
+                  fullWidth
+                  id="last_name"
+                  label="Last Name"
+                  name="last_name"
+                  autoComplete="last_name"
+                  error={formError.last_name && formError.last_name.error}
+                  helperText={
+                    formError.last_name ? formError.last_name.message : ''
+                  }
+                  className={classes.textField}
+                  onBlur={(e) => handleBlur(e)}
+                  {...last_name.bind}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="standard"
-                margin="normal"
-                fullWidth
-                id="last_name"
-                label="Last Name"
-                name="last_name"
-                autoComplete="last_name"
-                error={formError.last_name && formError.last_name.error}
-                helperText={
-                  formError.last_name ? formError.last_name.message : ''
-                }
-                className={classes.textField}
-                onBlur={(e) => handleBlur(e)}
-                {...last_name.bind}
-              />
+            <Grid container spacing={isMobile() ? 0 : 3}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="standard"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  error={formError.username && formError.username.error}
+                  helperText={
+                    formError.username ? formError.username.message : ''
+                  }
+                  className={classes.textField}
+                  onBlur={(e) => handleBlur(e, 'required', username)}
+                  {...username.bind}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={isMobile() ? 0 : 3}>
-            <Grid item xs={12}>
-              <TextField
-                variant="standard"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                error={formError.username && formError.username.error}
-                helperText={
-                  formError.username ? formError.username.message : ''
-                }
-                className={classes.textField}
-                onBlur={(e) => handleBlur(e, 'required', username)}
-                {...username.bind}
-              />
+            <Grid container spacing={isMobile() ? 0 : 3}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="standard"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  name="email"
+                  autoComplete="email"
+                  type="email"
+                  error={formError.email && formError.email.error}
+                  helperText={formError.email ? formError.email.message : ''}
+                  className={classes.textField}
+                  onBlur={(e) => handleBlur(e, 'email', email)}
+                  {...email.bind}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={isMobile() ? 0 : 3}>
-            <Grid item xs={12}>
-              <TextField
-                variant="standard"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                type="email"
-                error={formError.email && formError.email.error}
-                helperText={formError.email ? formError.email.message : ''}
-                className={classes.textField}
-                onBlur={(e) => handleBlur(e, 'email', email)}
-                {...email.bind}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={isMobile() ? 0 : 3}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="standard"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                error={formError.password && formError.password.error}
-                helperText={
-                  formError.password ? formError.password.message : ''
-                }
-                className={classes.textField}
-                onBlur={(e) => handleBlur(e, 'required', password)}
-                {...password.bind}
-              />
-            </Grid>
+            <Grid container spacing={isMobile() ? 0 : 3}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  variant="standard"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  error={formError.password && formError.password.error}
+                  helperText={
+                    formError.password ? formError.password.message : ''
+                  }
+                  className={classes.textField}
+                  onBlur={(e) => handleBlur(e, 'required', password)}
+                  {...password.bind}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="standard"
-                margin="normal"
-                required
+              <Grid item xs={12} md={6}>
+                <TextField
+                  variant="standard"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="re_password"
+                  label="Confirm Password"
+                  name="re_password"
+                  type="password"
+                  autoComplete="re_password"
+                  error={formError.re_password && formError.re_password.error}
+                  helperText={
+                    formError.re_password ? formError.re_password.message : ''
+                  }
+                  className={classes.textField}
+                  onBlur={(e) => handleBlur(e, 'confirm', re_password)}
+                  {...re_password.bind}
+                />
+              </Grid>
+            </Grid>
+            <div className={classes.loadingWrapper}>
+              <Button
+                type="submit"
                 fullWidth
-                id="re_password"
-                label="Confirm Password"
-                name="re_password"
-                type="password"
-                autoComplete="re_password"
-                error={formError.re_password && formError.re_password.error}
-                helperText={
-                  formError.re_password ? formError.re_password.message : ''
-                }
-                className={classes.textField}
-                onBlur={(e) => handleBlur(e, 'confirm', re_password)}
-                {...re_password.bind}
-              />
-            </Grid>
-          </Grid>
-          <div className={classes.loadingWrapper}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              disabled={loading || submitDisabled()}
-            >
-              Sign Up
-            </Button>
-            {loading && (
-              <CircularProgress
-                size={24}
-                className={classes.buttonProgress}
-              />
-            )}
-          </div>
-          <Grid container>
-            <Grid item xs align="center">
-              {'Already have an account? '}
-              <Link
-                href={routes.REGISTER}
-                variant="body2"
+                variant="contained"
                 color="primary"
-                className={classes.link}
+                className={classes.submit}
+                disabled={loading || submitDisabled()}
               >
-                Log in here
-              </Link>
+                Sign Up
+              </Button>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
+            </div>
+            <Grid container>
+              <Grid item xs align="center">
+                {'Already have an account? '}
+                <Link
+                  href={routes.LOGIN}
+                  variant="body2"
+                  color="primary"
+                  className={classes.link}
+                >
+                  Log in here
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
+    </div>
   );
 };
 

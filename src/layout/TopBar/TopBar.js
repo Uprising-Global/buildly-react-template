@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
@@ -22,17 +22,11 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     background: 'radial-gradient(89.88% 89.88% at 50% 10.12%, rgba(0, 0, 0, 0.833) 0%, rgba(0, 0, 0, 0.6174) 100%)',
     zIndex: theme.zIndex.drawer + 1,
+    backdropFilter: `blur(${theme.spacing(10)})`,
   },
   logo: {
-    maxWidth: 50,
+    maxWidth: theme.spacing(25),
     objectFit: 'contain',
-  },
-  links: {
-    textDecoration: 'none',
-    color: theme.palette.primary.contrastText,
-    fontWeight: 700,
-    letterSpacing: theme.spacing(0.003),
-    marginLeft: theme.spacing(2),
   },
   menuButton: {
     marginLeft: 'auto',
@@ -49,6 +43,27 @@ const useStyles = makeStyles((theme) => ({
   menuLink: {
     textDecoration: 'none',
     color: 'inherit',
+  },
+  navRight: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
+  navActive: {
+    color: `${theme.palette.secondary.main} !important`,
+  },
+  navLink: {
+    textDecoration: 'none',
+    color: theme.palette.primary.contrastText,
+    fontWeight: 700,
+    letterSpacing: theme.spacing(0.003),
+    marginLeft: theme.spacing(2),
+  },
+  navLinkSeparator: {
+    padding: theme.spacing(0.25),
+    backgroundColor: theme.palette.secondary.main,
+    marginLeft: theme.spacing(2),
   },
 }));
 
@@ -83,17 +98,39 @@ const TopBar = ({
   };
 
   return (
-    <AppBar position="fixed" className={classes.appBar}>
+    <AppBar className={classes.appBar}>
       <Toolbar>
         <Link to={routes.HOME}>
           <img src={logo} className={classes.logo} alt="Company text logo" />
         </Link>
-        <Link className={classes.links} to={routes.PROJECTS}>
+        <Link className={classes.navLink} to={routes.PROJECTS}>
           Projects
         </Link>
-        <Link className={classes.links} to={routes.LEARN}>
+        <Link className={classes.navLink} to={routes.LEARN}>
           Learn
         </Link>
+
+        {!isLoggedIn && (
+          <div className={classes.navRight}>
+            <NavLink
+              to={routes.LOGIN}
+              activeClassName={classes.navActive}
+              title="Log in"
+              className={classes.navLink}
+            >
+              Log in
+            </NavLink>
+            <div className={classes.navLinkSeparator} />
+            <NavLink
+              to={routes.REGISTER}
+              activeClassName={classes.navActive}
+              title="Sign up"
+              className={classes.navLink}
+            >
+              Sign up
+            </NavLink>
+          </div>
+        )}
 
         {isLoggedIn && (
         <Button

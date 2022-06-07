@@ -82,7 +82,7 @@ function UserManagement({
   };
 
   return (
-    <Box mt={1} mb={3}>
+    <Box mt={1} mb={3} style={{ padding: '6em 3em' }}>
       <Grid container mb={3} justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography className={classes.userManagementHeading} variant="h4">

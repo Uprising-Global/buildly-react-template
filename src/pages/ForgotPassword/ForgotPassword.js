@@ -15,8 +15,16 @@ import {
 } from '@redux/authuser/authuser.actions';
 import { validators } from '@utils/validators';
 import { routes } from '@routes/routesConstants';
+import backImage from '@assets/background-image.png';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    paddingTop: '6em',
+    backgroundImage: `url(${backImage})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -109,69 +117,71 @@ const ForgotPassword = ({ dispatch, loading, history }) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5" gutterBottom>
-          Enter your registered Email
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="standard"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Registered email"
-            name="email"
-            autoComplete="email"
-            className={classes.textField}
-            error={error.email && error.email.error}
-            helperText={error && error.email ? error.email.message : ''}
-            onBlur={(e) => handleBlur(e, 'email', email)}
-            {...email.bind}
-          />
-          <Grid container>
-            <Grid item xs align="right">
-              <Link href={routes.LOGIN} variant="body2" color="primary">
-                Go back to Sign in
-              </Link>
-            </Grid>
-          </Grid>
-          <div className={classes.loadingWrapper}>
-            <Button
-              type="submit"
+    <div className={classes.root}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5" gutterBottom>
+            Enter your registered Email
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <TextField
+              variant="standard"
+              margin="normal"
+              required
               fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              disabled={loading || submitDisabled()}
-            >
-              Send Email
-            </Button>
-            {loading && (
-              <CircularProgress
-                size={24}
-                className={classes.buttonProgress}
-              />
-            )}
-          </div>
-          <Grid container>
-            <Grid item xs align="center">
-              {"Don't have an account? "}
-              <Link
-                href={routes.REGISTER}
-                variant="body2"
-                color="primary"
-                className={classes.link}
-              >
-                Sign up here
-              </Link>
+              id="email"
+              label="Registered email"
+              name="email"
+              autoComplete="email"
+              className={classes.textField}
+              error={error.email && error.email.error}
+              helperText={error && error.email ? error.email.message : ''}
+              onBlur={(e) => handleBlur(e, 'email', email)}
+              {...email.bind}
+            />
+            <Grid container>
+              <Grid item xs align="right">
+                <Link href={routes.LOGIN} variant="body2" color="primary">
+                  Go back to Sign in
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+            <div className={classes.loadingWrapper}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled={loading || submitDisabled()}
+              >
+                Send Email
+              </Button>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
+            </div>
+            <Grid container>
+              <Grid item xs align="center">
+                {"Don't have an account? "}
+                <Link
+                  href={routes.REGISTER}
+                  variant="body2"
+                  color="primary"
+                  className={classes.link}
+                >
+                  Sign up here
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
+    </div>
   );
 };
 
