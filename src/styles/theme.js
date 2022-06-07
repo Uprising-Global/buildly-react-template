@@ -3,7 +3,7 @@ import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 const theme = createTheme(({
   palette: {
     primary: {
-      main: '#6216ff',
+      main: '#3E66FB',
       hover: '#fff',
       contrastText: '#d6d6d6',
     },
@@ -57,13 +57,29 @@ const theme = createTheme(({
       styleOverrides: {
         root: {
           color: '#fff',
-          borderBottom: '1px solid #d6d6d6',
         },
         input: {
           '&.Mui-disabled': {
             color: 'rgba(255, 255, 255, 0.5)',
             WebkitTextFillColor: 'unset !important',
           },
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        underline: {
+          borderBottom: '1px solid #d6d6d6',
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          border: '1px solid #d6d6d6',
+          borderRadius: '8px',
+          backgroundColor: '#d6d6d6',
+          color: '#000',
         },
       },
     },
@@ -75,10 +91,6 @@ const theme = createTheme(({
             backgroundColor: 'rgba(255, 255, 255, 0.3)',
           },
         },
-        // '& .Mui-disabled': {
-        //   color: 'rgba(255, 255, 255, 0.5) !important',
-        //   backgroundColor: 'rgba(255, 255, 255, 0.3) !important',
-        // },
       },
     },
   },
