@@ -18,7 +18,7 @@ import backImage from '@assets/background-image.png';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: '6em',
+    padding: '6em 0',
     backgroundImage: `url(${backImage})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',

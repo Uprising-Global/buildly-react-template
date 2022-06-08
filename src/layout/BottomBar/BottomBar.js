@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridRight: {
     width: '100%',
-    paddingRight: '160px',
+    marginRight: '160px',
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     textAlign: 'right',
@@ -179,21 +179,21 @@ const BottomBar = () => {
           Find us at:
         </Typography>
         <div className={classes.social}>
-          <Link to="/" target="_blank" rel="noopener noreferrer">
+          <a href="/" target="_blank" rel="noopener noreferrer">
             <YouTubeIcon fontSize="small" />
-          </Link>
-          <Link to="https://www.instagram.com/uprising.global/" target="_blank" rel="noopener noreferrer">
+          </a>
+          <a href="https://www.instagram.com/uprising.global/" target="_blank" rel="noopener noreferrer">
             <InstagramIcon fontSize="small" />
-          </Link>
-          <Link to="https://www.facebook.com/uprising.global" target="_blank" rel="noopener noreferrer">
+          </a>
+          <a href="https://www.facebook.com/uprising.global" target="_blank" rel="noopener noreferrer">
             <FacebookIcon fontSize="small" />
-          </Link>
-          <Link to="https://www.linkedin.com/company/uprising-global" target="_blank" rel="noopener noreferrer">
+          </a>
+          <a href="https://www.linkedin.com/company/uprising-global" target="_blank" rel="noopener noreferrer">
             <LinkedInIcon fontSize="small" />
-          </Link>
-          <Link to="/" target="_blank" rel="noopener noreferrer">
+          </a>
+          <a href="/" target="_blank" rel="noopener noreferrer">
             <TwitterIcon fontSize="small" />
-          </Link>
+          </a>
         </div>
       </Grid>
     </Grid>

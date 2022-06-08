@@ -82,8 +82,8 @@ const TopBar = ({
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
-    if (data && data.data) {
-      const user = data.data;
+    if (data) {
+      const user = data;
       setLoggedIn(true);
       setIsAdmin(checkForAdmin(user) || checkForGlobalAdmin(user));
     } else {
@@ -154,16 +154,14 @@ const TopBar = ({
           color="inherit"
         >
           {isAdmin && (
-          <>
-            <MenuItem onClick={(e) => setAnchorEl(null)}>
-              <ManageAccountsIcon className={classes.menuIcon} fontSize="small" />
-              <Link className={classes.menuLink} to={routes.USER_MANAGEMENT}>
-                <ListItemText primary="User Management" />
-              </Link>
-            </MenuItem>
-            <Divider />
-          </>
+          <MenuItem onClick={(e) => setAnchorEl(null)}>
+            <ManageAccountsIcon className={classes.menuIcon} fontSize="small" />
+            <Link className={classes.menuLink} to={routes.USER_MANAGEMENT}>
+              <ListItemText primary="User Management" />
+            </Link>
+          </MenuItem>
           )}
+          {isAdmin && <Divider />}
           <MenuItem onClick={handleLogoutClick}>
             <LogoutIcon className={classes.menuIcon} fontSize="small" />
             <ListItemText primary="LogOut" />

@@ -41,8 +41,10 @@ import { routes } from '@routes/routesConstants';
 
 function* logout() {
   try {
-    yield call(oauthService.logout);
-    yield [yield put({ type: LOGOUT_SUCCESS })];
+    yield [
+      yield call(oauthService.logout),
+      yield put({ type: LOGOUT_SUCCESS }),
+    ];
   } catch (error) {
     console.log('error', error);
     yield put({ type: LOGOUT_FAIL });

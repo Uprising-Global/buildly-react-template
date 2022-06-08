@@ -27,6 +27,7 @@ import {
   GET_ORGANIZATION,
   GET_ORGANIZATION_SUCCESS,
   GET_ORGANIZATION_FAILURE,
+  LOGOUT_SUCCESS,
 } from '@redux/authuser/authuser.actions';
 
 const initialState = {
@@ -53,7 +54,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         loaded: true,
-        data: action.user,
+        data: action.user.data,
       };
 
     case LOGIN_FAIL:
@@ -62,6 +63,14 @@ export default (state = initialState, action) => {
         loading: false,
         loaded: true,
         error: action.error,
+      };
+
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        data: null,
       };
 
     case SEND_PASSWORD_RESET_LINK:

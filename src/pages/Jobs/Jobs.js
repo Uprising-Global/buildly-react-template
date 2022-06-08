@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import Typography from '@mui/material/Typography';
 
@@ -24,7 +23,7 @@ const Jobs = () => {
       <Typography className={classes.body} component="div" variant="body1">
         We're not looking for anyone right now but we're open to submissions at
         {' '}
-        <Link href="mailto:jobs@uprising.global">jobs@uprising.global</Link>
+        <a href="mailto:jobs@uprising.global">jobs@uprising.global</a>
       </Typography>
     </div>
   );

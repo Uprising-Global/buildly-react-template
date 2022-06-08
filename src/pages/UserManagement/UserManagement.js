@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   inviteForm: {
     padding: theme.spacing(3),
     minWidth: rem(25),
+    color: '#000',
   },
 }));
 

@@ -93,6 +93,48 @@ const theme = createTheme(({
         },
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#d6d6d6',
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          color: '#d6d6d6',
+          borderBottom: '1px solid rgba(81, 81, 81, 1)',
+          '& .MuiButton-root:hover': {
+            backgroundColor: '#3E66FB',
+          },
+          '& .MuiButtonBase-root': {
+            color: '#d6d6d6',
+            '&.Mui-disabled': {
+              color: '#d6d6d6',
+              opacity: 0.5,
+            },
+          },
+        },
+        head: {
+          backgroundColor: '#ef2563 !important',
+        },
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        track: {
+          backgroundColor: '#d6d6d6',
+        },
+        switchBase: {
+          '&.Mui-disabled': {
+            '+.MuiSwitch-track': {
+              opacity: 0.3,
+            },
+          },
+        },
+      },
+    },
   },
 }));
 

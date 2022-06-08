@@ -131,7 +131,7 @@ function UserGroups() {
 
             return (
               <>
-                <Grid container justifyContent="flex-end">
+                {/* <Grid container justifyContent="flex-end">
                   <Grid item>
                     <Button
                       color="primary"
@@ -143,7 +143,7 @@ function UserGroups() {
                       Add group
                     </Button>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 <StyledTable
                   columns={[
                     { label: 'Group type', prop: 'name', template: (row) => nameTemplate(row, crud) },
