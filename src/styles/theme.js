@@ -135,6 +135,15 @@ const theme = createTheme(({
         },
       },
     },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+          color: '#d6d6d6',
+          border: '1px solid #d6d6d6',
+        },
+      },
+    },
   },
 }));
 
