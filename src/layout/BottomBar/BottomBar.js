@@ -14,6 +14,8 @@ import logo from '@assets/logo.png';
 import { useInput } from '@hooks/useInput';
 import { validators } from '@utils/validators';
 import { routes } from '@routes/routesConstants';
+import { connect } from 'react-redux';
+import { addSubscriber } from '@redux/authuser/authuser.actions';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -72,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Component for the top bar header.
  */
-const BottomBar = () => {
+const BottomBar = ({ dispatch }) => {
   const classes = useStyles();
   const email = useInput('', { required: true });
   const [error, setError] = useState({});
@@ -115,6 +117,17 @@ const BottomBar = () => {
     return errorExists;
   };
 
+  /**
+   * Submit the form to the backend and attempts to authenticate
+   * @param {Event} event the default submit event
+   */
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = { email: email.value };
+    email.reset();
+    dispatch(addSubscriber(data));
+  };
+
   return (
     <Grid container className={classes.appBar}>
       <Grid item className={classes.gridLeft}>
@@ -149,7 +162,7 @@ const BottomBar = () => {
         <Typography component="div" variant="caption">
           Subscribe to Uprising
         </Typography>
-        <div className={classes.subscriber}>
+        <form className={classes.subscriber} onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -172,7 +185,7 @@ const BottomBar = () => {
           >
             Subscribe
           </Button>
-        </div>
+        </form>
       </Grid>
       <Grid item className={classes.gridRight}>
         <Typography component="div" variant="body1" className={classes.findUs}>
@@ -200,4 +213,8 @@ const BottomBar = () => {
   );
 };
 
-export default BottomBar;
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(BottomBar);

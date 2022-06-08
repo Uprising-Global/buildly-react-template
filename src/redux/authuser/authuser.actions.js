@@ -43,6 +43,10 @@ export const UPDATE_ORGANIZATION = 'AUTH/UPDATE_ORGANIZATION';
 export const UPDATE_ORGANIZATION_SUCCESS = 'AUTH/UPDATE_ORGANIZATION_SUCCESS';
 export const UPDATE_ORGANIZATION_FAILURE = 'AUTH/UPDATE_ORGANIZATION_FAILURE';
 
+export const ADD_SUBSCRIBER = 'AUTH/ADD_SUBSCRIBER';
+export const ADD_SUBSCRIBER_SUCCESS = 'AUTH/ADD_SUBSCRIBER_SUCCESS';
+export const ADD_SUBSCRIBER_FAILURE = 'AUTH/ADD_SUBSCRIBER_FAILURE';
+
 /**
  * Login action
  * @param {{ username, password }} credentials
@@ -114,3 +118,9 @@ export const updateOrganization = (uuid) => ({
   type: UPDATE_ORGANIZATION,
   uuid,
 });
+
+/**
+ * Add subscriber action
+ * @param {{ email }} data
+ */
+export const addSubscriber = (data) => ({ type: ADD_SUBSCRIBER, data });
