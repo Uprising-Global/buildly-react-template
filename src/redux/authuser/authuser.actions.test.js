@@ -53,3 +53,14 @@ describe('actions', () => {
     expect(actions.invite(data)).toEqual(expectedAction);
   });
 });
+
+describe('actions', () => {
+  it('should create an action to add subscriber', () => {
+    const data = 'AUTH/ADD_SUBSCRIBER';
+    const expectedAction = {
+      data,
+      type: actions.ADD_SUBSCRIBER,
+    };
+    expect(actions.addSubscriber(data)).toEqual(expectedAction);
+  });
+});

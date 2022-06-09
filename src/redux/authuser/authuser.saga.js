@@ -30,6 +30,9 @@ import {
   GET_ORGANIZATION_FAILURE,
   GET_ORGANIZATION_SUCCESS,
   getOrganization,
+  ADD_SUBSCRIBER,
+  ADD_SUBSCRIBER_SUCCESS,
+  ADD_SUBSCRIBER_FAILURE,
 } from '@redux/authuser/authuser.actions';
 import {
   put, takeLatest, all, call,
@@ -41,8 +44,10 @@ import { routes } from '@routes/routesConstants';
 
 function* logout() {
   try {
-    yield call(oauthService.logout);
-    yield [yield put({ type: LOGOUT_SUCCESS })];
+    yield [
+      yield call(oauthService.logout),
+      yield put({ type: LOGOUT_SUCCESS }),
+    ];
   } catch (error) {
     console.log('error', error);
     yield put({ type: LOGOUT_FAIL });
@@ -376,6 +381,32 @@ function* getOrganizationData(payload) {
   }
 }
 
+function* addSubscriber(payload) {
+  try {
+    yield call(
+      httpService.makeRequest,
+      'post',
+      `${window.env.API_URL}subscriber/`,
+      payload.data,
+    );
+    yield [
+      yield put({ type: ADD_SUBSCRIBER_SUCCESS }),
+      yield put(
+        showAlert({
+          type: 'success',
+          open: true,
+          message: 'Successfully subscribed to Uprising',
+        }),
+      ),
+    ];
+  } catch (error) {
+    yield put({
+      type: ADD_SUBSCRIBER_FAILURE,
+      error: 'Failed to subscribe to Uprising!',
+    });
+  }
+}
+
 function* watchLogout() {
   yield takeLatest(LOGOUT, logout);
 }
@@ -416,6 +447,10 @@ function* watchGetOrganization() {
   yield takeLatest(GET_ORGANIZATION, getOrganizationData);
 }
 
+function* watchAddSubscriber() {
+  yield takeLatest(ADD_SUBSCRIBER, addSubscriber);
+}
+
 export default function* authSaga() {
   yield all([
     watchLogin(),
@@ -428,5 +463,6 @@ export default function* authSaga() {
     watchInvite(),
     watchGetUser(),
     watchGetOrganization(),
+    watchAddSubscriber(),
   ]);
 }
