@@ -132,15 +132,15 @@ const BottomBar = ({ dispatch }) => {
     <Grid container className={classes.appBar}>
       <Grid item className={classes.gridLeft}>
         <img className={classes.logo} src={logo} alt="Uprising Logo" />
-        <Typography component="div" variant="body1">
+        <Typography variant="body1">
           <b>UPRISING</b>
           {' '}
           is a film investment
         </Typography>
-        <Typography component="div" variant="body1">
+        <Typography variant="body1">
           platform for everyone.
         </Typography>
-        <Typography component="div" variant="body1" className={classes.caption}>
+        <Typography variant="body1" className={classes.caption}>
           Tell your story.
         </Typography>
       </Grid>
@@ -159,7 +159,7 @@ const BottomBar = ({ dispatch }) => {
         </Grid>
       </Grid>
       <Grid item className={classes.gridLeft}>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Subscribe to Uprising
         </Typography>
         <form className={classes.subscriber} onSubmit={handleSubmit}>
@@ -188,7 +188,7 @@ const BottomBar = ({ dispatch }) => {
         </form>
       </Grid>
       <Grid item className={classes.gridRight}>
-        <Typography component="div" variant="body1" className={classes.findUs}>
+        <Typography variant="body1" className={classes.findUs}>
           Find us at:
         </Typography>
         <div className={classes.social}>

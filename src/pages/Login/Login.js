@@ -132,7 +132,7 @@ const Login = ({ dispatch, loading, history }) => {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h4">
+          <Typography variant="h4">
             LOG IN
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>

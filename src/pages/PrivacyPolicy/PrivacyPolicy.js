@@ -17,10 +17,10 @@ const PrivacyPolicy = () => {
 
   return (
     <div className={classes.container}>
-      <Typography component="h3" variant="h3">
+      <Typography variant="h3">
         PrivacyPolicy
       </Typography>
-      <Typography className={classes.body} component="div" variant="body1">
+      <Typography className={classes.body} variant="body1">
         Privacy Policy details will be available here.
       </Typography>
     </div>

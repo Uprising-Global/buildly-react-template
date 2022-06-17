@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
+import Loader from '@components/Loader/Loader';
+import { getAllFilms } from '@redux/project/project.actions';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(8),
     paddingTop: '6em',
     borderBottom: `1px solid ${theme.palette.primary.contrastText}`,
-    textAlign: 'center',
     flex: 1,
   },
   titleContainer: {
@@ -42,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gridColumnGap: theme.spacing(8),
+    marginTop: theme.spacing(2),
     borderBottom: `1px solid ${theme.palette.primary.contrastText}`,
     '& .MuiOutlinedInput-root': {
       color: theme.palette.primary.contrastText,
@@ -50,10 +54,17 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   filterFields: {
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(2),
   },
   fetchButton: {
+    width: '100%',
+    textAlign: 'center',
     marginTop: theme.spacing(11),
+  },
+  noFilms: {
+    marginTop: theme.spacing(6),
+    textAlign: 'center',
   },
   cardContainer: {
     display: 'grid',
@@ -70,15 +81,69 @@ const useStyles = makeStyles((theme) => ({
   cardActionArea: {
     padding: theme.spacing(2),
   },
+  multiLineEllipsis: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    '-webkit-line-clamp': 3,
+    '-webkit-box-orient': 'vertical',
+  },
 }));
 
-const Projects = () => {
+const Projects = ({ dispatch, loading, films }) => {
   const classes = useStyles();
+
+  const [allGenre, setAllGenre] = useState([]);
+  const [allCountryOfProd, setAllCountryOfProd] = useState([]);
+  const [genre, setGenre] = useState('all');
+  const [countryOfProd, setCountryOfProd] = useState('all');
+  const [status, setStatus] = useState('all');
+  const [sortBy, setSortBy] = useState('desc');
+  const [filmList, setFilmList] = useState([]);
+  const [showLimit, setShowLimit] = useState(5);
+  const [showFilms, setShowFilms] = useState([]);
+
+  useEffect(() => {
+    dispatch(getAllFilms());
+  }, []);
+
+  useEffect(() => {
+    if (!_.isEmpty(films)) {
+      setAllGenre(_.uniq(_.flatMap(films, 'genre')));
+      setAllCountryOfProd(_.uniq(_.flatMap(films, 'country_of_production')));
+    }
+  }, [films]);
+
+  useEffect(() => {
+    setShowFilms(_.take(filmList, showLimit));
+  }, [showLimit]);
+
+  useEffect(() => {
+    if (!_.isEmpty(films)) {
+      let filteredFilms = films;
+      if (genre !== 'all') {
+        filteredFilms = _.filter(filteredFilms, (film) => (_.includes(film.genre, genre)));
+      }
+      if (countryOfProd !== 'all') {
+        filteredFilms = _.filter(filteredFilms, (film) => (
+          _.includes(film.country_of_production, countryOfProd)
+        ));
+      }
+      if (status !== 'all') {
+        filteredFilms = _.filter(filteredFilms, { status });
+      }
+
+      filteredFilms = _.orderBy(filteredFilms, 'create_date', sortBy);
+      setFilmList(filteredFilms);
+      setShowFilms(_.take(filteredFilms, showLimit));
+    }
+  }, [films, genre, countryOfProd, status, sortBy]);
 
   return (
     <div className={classes.container}>
+      {loading && <Loader open={loading} />}
       <div className={classes.titleContainer}>
-        <Typography variant="h3" component="h3" color="primary">
+        <Typography variant="h3" color="primary">
           Projects
         </Typography>
         <TextField
@@ -100,224 +165,148 @@ const Projects = () => {
       </div>
 
       <div className={classes.filterContainer}>
+        <Typography variant="body1">
+          Genre
+        </Typography>
+
+        <Typography variant="body1">
+          Country of Production
+        </Typography>
+
+        <Typography variant="body1">
+          Status
+        </Typography>
+
+        <Typography variant="body1">
+          Sort by
+        </Typography>
+
         <TextField
           variant="outlined"
           margin="normal"
           select
           name="genre"
-          label="Genre"
           type="text"
           id="genre"
+          autoComplete="genre"
           className={classes.filterFields}
-        />
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
+        >
+          <MenuItem value="all">All genres</MenuItem>
+          {allGenre && !_.isEmpty(allGenre) && _.map(allGenre, (gen, idx) => (
+            <MenuItem key={`${gen}-${idx}`} value={gen}>
+              {gen}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <TextField
           variant="outlined"
           margin="normal"
           select
           name="countryOfProd"
-          label="Country Of Production"
           type="text"
           id="countryOfProd"
+          autoComplete="countryOfProd"
           className={classes.filterFields}
-        />
+          value={countryOfProd}
+          onChange={(e) => setCountryOfProd(e.target.value)}
+        >
+          <MenuItem value="all">All countries</MenuItem>
+          {allCountryOfProd && !_.isEmpty(allCountryOfProd)
+          && _.map(allCountryOfProd, (cop, idx) => (
+            <MenuItem key={`${cop}-${idx}`} value={cop}>
+              {cop}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <TextField
           variant="outlined"
           margin="normal"
           select
           name="status"
-          label="Status"
           type="text"
           id="status"
+          autoComplete="status"
           className={classes.filterFields}
-        />
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <MenuItem value="all">All statuses</MenuItem>
+          <MenuItem value="Open">Open</MenuItem>
+          <MenuItem value="Closed">Closed</MenuItem>
+        </TextField>
 
         <TextField
           variant="outlined"
           margin="normal"
           select
           name="sortBy"
-          label="Sort By"
           type="text"
           id="sortBy"
+          autoComplete="sortBy"
           className={classes.filterFields}
-        />
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <MenuItem value="desc">Newest first</MenuItem>
+          <MenuItem value="asc">Oldest first</MenuItem>
+        </TextField>
       </div>
 
-      <div className={classes.cardContainer}>
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
+      <div className={_.isEmpty(showFilms) ? classes.noFilms : classes.cardContainer}>
+        {showFilms && _.isEmpty(showFilms) && (
+          <Typography variant="h6">
+            No projects yet on the platform.
+          </Typography>
+        )}
 
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
-
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
-
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
-
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
-
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
-
-        <Card variant="outlined" className={classes.card}>
-          <CardMedia
-            component="img"
-            height="160"
-            image="https://picsum.photos/200/300?random=2"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom component="div" variant="h5">
-              The Last Breath
-            </Typography>
-            <Typography component="div" variant="body1">
-              Pursued by deadly space kittens, the cosmos' most notorious idiot
-              and his nephew find a hidden stash of weed during their efforts to...
-            </Typography>
-          </CardContent>
-          <CardActionArea className={classes.cardActionArea}>
-            <Button type="button" variant="contained" color="secondary" fullWidth>
-              Check this project
-            </Button>
-          </CardActionArea>
-        </Card>
+        {showFilms && !_.isEmpty(showFilms) && _.map(showFilms, (film, idx) => (
+          <Card key={`${film.film_uuid}-${idx}`} variant="outlined" className={classes.card}>
+            <CardMedia
+              component="img"
+              height="160"
+              image={film.poster_url}
+              alt={film.name}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h6">
+                {film.name}
+              </Typography>
+              <Typography variant="body1" className={classes.multiLineEllipsis}>
+                {film.description}
+              </Typography>
+            </CardContent>
+            <div className={classes.cardActionArea}>
+              <Button type="button" variant="contained" color="secondary" fullWidth>
+                Check this project
+              </Button>
+            </div>
+          </Card>
+        ))}
       </div>
 
-      <Button
-        type="button"
-        variant="contained"
-        color="primary"
-        className={classes.fetchButton}
-      >
-        Fetch more
-      </Button>
+      {showFilms && !_.isEmpty(showFilms) && (showLimit < _.size(filmList)) && (
+        <div className={classes.fetchButton}>
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            onClick={(e) => setShowLimit(showLimit + 5)}
+          >
+            Fetch more
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Projects;
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  ...state.projectReducer,
+});
+
+export default connect(mapStateToProps)(Projects);

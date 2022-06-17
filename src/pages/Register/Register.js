@@ -142,7 +142,7 @@ const Register = ({
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography variant="h5">
             Register
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>

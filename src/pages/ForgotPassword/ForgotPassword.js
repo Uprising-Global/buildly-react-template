@@ -121,7 +121,7 @@ const ForgotPassword = ({ dispatch, loading, history }) => {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom>
             Enter your registered Email
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>

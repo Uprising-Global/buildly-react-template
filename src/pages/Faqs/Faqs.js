@@ -17,10 +17,10 @@ const Faqs = () => {
 
   return (
     <div className={classes.container}>
-      <Typography component="h3" variant="h3">
+      <Typography variant="h3">
         FAQS
       </Typography>
-      <Typography className={classes.body} component="div" variant="body1">
+      <Typography className={classes.body} variant="body1">
         FAQ(s) will be available here.
       </Typography>
     </div>

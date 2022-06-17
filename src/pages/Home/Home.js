@@ -19,9 +19,7 @@ const useStyles = makeStyles((theme) => ({
     '& h2': {
       paddingLeft: theme.spacing(15),
       textTransform: 'uppercase',
-      fontFamily: 'Archivo',
       fontStyle: 'normal',
-      fontWeight: 900,
       WebkitTextStrokeColor: '#d6d6d6',
       WebkitTextFillColor: 'transparent',
       WebkitTextStrokeWidth: theme.spacing(0.25),
@@ -40,14 +38,12 @@ const useStyles = makeStyles((theme) => ({
       float: 'left',
     },
     '& div': {
-      fontWeight: '900',
       '&:first-of-type': {
         paddingTop: theme.spacing(2),
       },
     },
     '& button': {
       marginTop: theme.spacing(5),
-      fontWeight: '900',
     },
   },
   section2: {
@@ -70,10 +66,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
-    fontWeight: '900',
   },
   subtitle: {
-    fontWeight: '900',
     marginTop: theme.spacing(4),
   },
   card: {
@@ -93,18 +87,18 @@ const Home = () => {
   return (
     <Grid container>
       <Grid item xs={12} className={classes.section1}>
-        <Typography component="h2" variant="h2">
+        <Typography variant="h2">
           Invest in films
         </Typography>
-        <Typography component="h2" variant="h2">
+        <Typography variant="h2">
           as little as $100
         </Typography>
         <div className={classes.container}>
           <img src={arrow} alt="Left arrow" />
-          <Typography component="div" variant="body1">
+          <Typography variant="body1">
             Greenlight the stories you want to see.
           </Typography>
-          <Typography component="div" variant="body1">
+          <Typography variant="body1">
             Join the Uprising
           </Typography>
           <Button variant="contained" color="secondary">
@@ -115,10 +109,10 @@ const Home = () => {
 
       <Grid item xs={12} className={classes.section2}>
         <Grid item className={classes.grid1}>
-          <Typography component="h4" variant="h4" color="secondary" className={classes.title}>
+          <Typography variant="h4" color="secondary" className={classes.title}>
             Invest now
           </Typography>
-          <Typography component="div" variant="subtitle1" className={classes.title}>
+          <Typography variant="subtitle1" className={classes.title}>
             Films currently raising money
           </Typography>
 
@@ -133,32 +127,10 @@ const Home = () => {
                 />
                 <CardContent>
                   <Chip label="Action" color="primary" className={classes.chip} />
-                  <Typography gutterBottom component="div" variant="h5">
+                  <Typography gutterBottom variant="h5">
                     Da 5 Bloods
                   </Typography>
-                  <Typography component="div" variant="body1">
-                    Four African-American vets battle the forces of man and nature when they
-                    return to Vietnam seeking the remains of their fallen squad leader and
-                    the gold fortune he helped them hide.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item>
-              <Card variant="outlined">
-                <CardMedia
-                  component="img"
-                  height="240"
-                  image="https://picsum.photos/200/300?random=2"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Chip label="Horror" color="primary" className={classes.chip} />
-                  <Typography gutterBottom component="div" variant="h5">
-                    Da 5 Bloods
-                  </Typography>
-                  <Typography component="div" variant="body1">
+                  <Typography variant="body1">
                     Four African-American vets battle the forces of man and nature when they
                     return to Vietnam seeking the remains of their fallen squad leader and
                     the gold fortune he helped them hide.
@@ -170,17 +142,17 @@ const Home = () => {
         </Grid>
 
         <Grid item className={classes.grid2}>
-          <Typography component="h4" variant="h4" color="secondary" className={classes.title}>
+          <Typography variant="h4" color="secondary" className={classes.title}>
             How It works
           </Typography>
-          <Typography component="div" variant="body1" className={classes.subtitle}>
+          <Typography variant="body1" className={classes.subtitle}>
             <em>Step by Step Explanation</em>
           </Typography>
         </Grid>
       </Grid>
 
       <Grid item xs={12} className={classes.section3}>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Lörem ipsum prelassa spebuns ett sengar. Tiskade eun utan månat. Nyfål oras.
           Ågärade ralogi. Radionetik dess Emanuel Gustavsson. Yre pevassa samt Jessica Nordström.
           Bukaliga monosamma radioitet sadade. Ripan mar en soheten sal reagen. Nyr viras och prena
@@ -190,13 +162,13 @@ const Home = () => {
           Emil Wallin rekroktiga. Homoktiga ultras kal. Karat dinuning dera, peska innan Nils
           Lindgren. Krov terar lavis.
         </Typography>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Kopyvis dolabel. Antenest kosade palig. Nysk osam, alig, så dekalogi bussade. Preliga fagt
           osk kvasitel äbeda. Olig lavis fast vade näsarade. Seskapet sunade med javis valingar,
           homot.Bussa exonäning. Pseudosofi ade ambigyn, såvis. Pösade kontragäng ten, då gigass.
           Aning jerade, i sår.
         </Typography>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Semivis synlogi buling. Kosamma presam. Polyskade faning eller mitreska, poktiga paktiga.
           Polyrat reda. Orar tefon. Berit Lindholm Leif Jonsson, och epis nektiga abism. Krora
           kroning. Pona nyrade tiv didiss jag pötresk. Vödede Robin Hansson, Maria Berg gönining.
@@ -206,11 +178,11 @@ const Home = () => {
           poliga kyn. San. Jack tregösm när sebur. Hexaktiga ens, supp i vispera. Kontramin megafal.
           Suprant. Gunnar Strömberg hypov. Salig varade ykägt tills bussa, oda.
         </Typography>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Pseudopol Emil Nilsson. Lina Arvidsson pseudopp Maria Lundgren, solig. Roger Berglund
           däbel. Mahet Bo Sjöberg. Kabär dira. Plade lar oning har ber. Bepagt lanar didade.
         </Typography>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Pseudopol Emil Nilsson. Lina Arvidsson pseudopp Maria Lundgren, solig. Roger Berglund
           däbel. Mahet Bo Sjöberg. Kabär dira. Plade lar oning har ber. Bepagt lanar didade.
           Antesam spektigt. Monotira valiga parapiktig. Kontraheten Fredrik Gunnarsson påsask nefas.
@@ -224,7 +196,7 @@ const Home = () => {
           Marianne Ekström polyfiering intrask. Biongen Gunnel Svensson, inte vat inte begäling
           megande.påv.
         </Typography>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Bösam sade, epp och ness men parande. Vajälig nynevis. Tetraskap metavalens. Kroren
           pneumates att regon för att hypons. Tivis for denade emedan lasade negt. Jade prerade.
           Nes bebåv förutom poliga kyn. San. Jack tregösm när sebur. Hexaktiga ens, supp i vispera.
@@ -232,7 +204,7 @@ const Home = () => {
           Pseudopol Emil Nilsson. Lina Arvidsson pseudopp Maria Lundgren, solig. Roger Berglund
           däbel. Mahet Bo Sjöberg. Kabär dira. Plade lar oning har ber. Bepagt lanar didade.
         </Typography>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Antesam spektigt. Monotira valiga parapiktig. Kontraheten Fredrik Gunnarsson påsask
           nefas. Firad astront ekoskop köligt fajadäment. Makrorade såtining trivism. Sesona abel
           ar: och best. Spere prehövis nybus är ase. Obel reafat san prening. Oning dev, rässade.

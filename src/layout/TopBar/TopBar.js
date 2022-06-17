@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
   navLink: {
     textDecoration: 'none',
     color: theme.palette.primary.contrastText,
-    fontWeight: 700,
     letterSpacing: theme.spacing(0.003),
     marginLeft: theme.spacing(2),
   },

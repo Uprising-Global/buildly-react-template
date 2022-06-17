@@ -5,6 +5,7 @@ import authReducer from './authuser/authuser.reducer';
 import coreuserReducer from './coreuser/coreuser.reducer';
 import coregroupReducer from './coregroup/coregroup.reducer';
 import alertReducer from './alert/alert.reducer';
+import projectReducer from './project/project.reducer';
 import { LOGOUT_SUCCESS } from './authuser/authuser.actions';
 
 const appReducer = combineReducers({
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
   coregroupReducer,
   crudDataReducer,
   alertReducer,
+  projectReducer,
 });
 
 const rootReducer = (state, action) => {

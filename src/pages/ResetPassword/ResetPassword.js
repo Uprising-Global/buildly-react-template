@@ -134,7 +134,7 @@ const ResetPassword = ({
       <Container component="main" maxWidth="xs" className={classes.container}>
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography variant="h5">
             Reset your Password
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>

@@ -14,8 +14,43 @@ const theme = createTheme(({
     },
   },
   typography: {
+    fontSize: 16,
     root: {
+      fontFamily: 'ArchivoBody',
+      fontWeight: 700,
       color: '#d6d6d6 !important',
+    },
+    h1: {
+      fontFamily: 'ArchivoHeading',
+      fontWeight: 900,
+    },
+    h2: {
+      fontFamily: 'ArchivoHeading',
+      fontWeight: 900,
+    },
+    h3: {
+      fontFamily: 'ArchivoHeading',
+      fontWeight: 900,
+    },
+    h4: {
+      fontFamily: 'ArchivoHeading',
+      fontWeight: 900,
+    },
+    h5: {
+      fontFamily: 'ArchivoHeading',
+      fontWeight: 900,
+    },
+    h6: {
+      fontFamily: 'ArchivoHeading',
+      fontWeight: 900,
+    },
+    subtitle1: {
+      fontFamily: 'ArchivoSubHeading',
+      fontWeight: 800,
+    },
+    subtitle2: {
+      fontFamily: 'ArchivoSubHeading',
+      fontWeight: 800,
     },
     button: {
       textTransform: 'none',
@@ -23,15 +58,27 @@ const theme = createTheme(({
   },
   components: {
     MuiCssBaseline: {
+      '@global': {
+        '@font-face': {
+          fontFamily: 'ArchivoHeading',
+          src: "url('../assets/fonts/Archivo_Expanded-Black.ttf') format('truetype')",
+        },
+        '@font-face': {
+          fontFamily: 'ArchivoSubHeading',
+          src: "url('../assets/fonts/Archivo_Expanded-SemiBoldItalic.ttf') format('truetype')",
+        },
+        '@font-face': {
+          fontFamily: 'ArchivoBody',
+          src: "url('../assets/fonts/Archivo_Expanded-ExtraLight.ttf') format('truetype')",
+        },
+      },
       styleOverrides: {
         body: {
           padding: 0,
           height: '100vh',
           backgroundColor: '#091314',
           color: '#d6d6d6',
-          fontFamily: 'Archivo',
-          fontWeight: 200,
-          fontSize: '1rem',
+          fontFamily: 'ArchivoBody',
         },
       },
     },

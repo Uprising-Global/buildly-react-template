@@ -17,10 +17,10 @@ const Jobs = () => {
 
   return (
     <div className={classes.container}>
-      <Typography component="h3" variant="h3">
+      <Typography variant="h3">
         Jobs
       </Typography>
-      <Typography className={classes.body} component="div" variant="body1">
+      <Typography className={classes.body} variant="body1">
         We're not looking for anyone right now but we're open to submissions at
         {' '}
         <a href="mailto:jobs@uprising.global">jobs@uprising.global</a>
