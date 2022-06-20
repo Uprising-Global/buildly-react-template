@@ -59,6 +59,9 @@ function* getAllFilms(payload) {
       httpService.makeRequest,
       'get',
       `${window.env.API_URL}${projectEndpoint}film/`,
+      null,
+      null,
+      'multipart/form-data',
     );
     yield put({ type: GET_ALL_FILMS_SUCCESS, data: films.data });
   } catch (error) {
@@ -84,6 +87,9 @@ function* getFilm(payload) {
       httpService.makeRequest,
       'get',
       `${window.env.API_URL}${projectEndpoint}film/${payload.film_uuid}`,
+      null,
+      null,
+      'multipart/form-data',
     );
     yield put({ type: GET_FILM_SUCCESS, data: film.data });
   } catch (error) {
