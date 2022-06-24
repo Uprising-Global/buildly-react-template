@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme, useMediaQuery } from '@mui/material';
 
 // TODO: Convert to provider
 export const isMobile = () => {

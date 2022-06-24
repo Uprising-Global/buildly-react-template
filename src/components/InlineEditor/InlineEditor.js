@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import Typography from '@mui/material/Typography';
+import {
+  Box, Grid, TextField, Typography,
+} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   nonEditMode: {

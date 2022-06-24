@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
+import {
+  Button, CssBaseline, Container, CircularProgress, Grid, Link, TextField, Typography,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
 import { useInput } from '@hooks/useInput';
 import { login, validateResetPasswordToken } from '@redux/authuser/authuser.actions';
 import { validators } from '@utils/validators';

@@ -4,21 +4,17 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect, useContext } from 'react';
+import { connect } from 'react-redux';
+import {
+  Button, ButtonGroup, Box, IconButton, Menu, MenuItem, Typography,
+} from '@mui/material';
+import { MoreHoriz } from '@mui/icons-material';
+import makeStyles from '@mui/styles/makeStyles';
+import { rem } from 'polished';
 import { UserContext } from '@context/User.context';
 import { StyledTable } from '@components/StyledTable/StyledTable';
 import Crud from '@modules/crud/Crud';
 import { getCoregroups } from '@redux/coregroup/coregroup.actions';
-import { connect } from 'react-redux';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import Box from '@mui/material/Box';
-import makeStyles from '@mui/styles/makeStyles';
-import { rem } from 'polished';
-import { Typography } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   btnPermission: {

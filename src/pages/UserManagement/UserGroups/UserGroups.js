@@ -6,15 +6,10 @@ import { UserContext } from '@context/User.context';
 import { InlineEditor } from '@components/InlineEditor/InlineEditor';
 import { StyledTable } from '@components/StyledTable/StyledTable';
 import Crud from '@modules/crud/Crud';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import Switch from '@mui/material/Switch';
-import Box from '@mui/material/Box';
-import AddIcon from '@mui/icons-material/AddCircle';
+import {
+  Box, Menu, MenuItem, IconButton, Switch,
+} from '@mui/material';
+import { MoreHoriz } from '@mui/icons-material';
 
 /**
  * Manage user groups

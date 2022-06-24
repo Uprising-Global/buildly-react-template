@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import makeStyles from '@mui/styles/makeStyles';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import InputAdornment from '@mui/material/InputAdornment';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import {
+  Button, Card, CardContent, CardMedia, InputAdornment, MenuItem, TextField, Typography,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import makeStyles from '@mui/styles/makeStyles';
 import Loader from '@components/Loader/Loader';
 import { getAllFilms } from '@redux/project/project.actions';
+import { routes } from '@routes/routesConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -90,7 +86,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Projects = ({ dispatch, loading, films }) => {
+const Projects = ({
+  dispatch, loading, films, history,
+}) => {
   const classes = useStyles();
 
   const [allGenre, setAllGenre] = useState([]);
@@ -280,7 +278,13 @@ const Projects = ({ dispatch, loading, films }) => {
               </Typography>
             </CardContent>
             <div className={classes.cardActionArea}>
-              <Button type="button" variant="contained" color="secondary" fullWidth>
+              <Button
+                type="button"
+                variant="contained"
+                color="secondary"
+                fullWidth
+                onClick={(e) => history.push(`${routes.FILM}/${film.film_uuid}`)}
+              >
                 Check this project
               </Button>
             </div>

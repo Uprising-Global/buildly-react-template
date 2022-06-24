@@ -79,6 +79,12 @@ const theme = createTheme(({
           backgroundColor: '#091314',
           color: '#d6d6d6',
           fontFamily: 'ArchivoBody',
+          /* hide scrollbar for IE, Edge and Firefox */
+          MsOverflowStyle: 'none',
+          scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
       },
     },

@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import {
+  Button, Card, CardContent, CardMedia, Chip, Grid, Typography,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import arrow from '@assets/arrow.svg';
 import WallImage from '@assets/wall-image.png';
+import Loader from '@components/Loader/Loader';
+import { getAllFilms } from '@redux/project/project.actions';
 
 const useStyles = makeStyles((theme) => ({
   section1: {
@@ -76,16 +76,35 @@ const useStyles = makeStyles((theme) => ({
     gridColumnGap: theme.spacing(8),
     gridTemplateColumns: 'repeat(3, 1fr)',
   },
-  chip: {
+  chipContainer: {
     marginBottom: theme.spacing(3),
+    display: 'grid',
+    gridGap: theme.spacing(1),
+    gridTemplateColumns: 'repeat(3, max-content)',
+  },
+  noInvest: {
+    marginTop: theme.spacing(5),
+    textAlign: 'center',
   },
 }));
 
-const Home = () => {
+const Home = ({ dispatch, loading, films }) => {
   const classes = useStyles();
+  const [openFilms, setOpenFilms] = useState([]);
+
+  useEffect(() => {
+    dispatch(getAllFilms());
+  }, []);
+
+  useEffect(() => {
+    if (films && !_.isEmpty(films)) {
+      setOpenFilms(_.filter(films, { status: 'Open' }));
+    }
+  }, [films]);
 
   return (
     <Grid container>
+      {loading && <Loader open={loading} />}
       <Grid item xs={12} className={classes.section1}>
         <Typography variant="h2">
           Invest in films
@@ -116,28 +135,38 @@ const Home = () => {
             Films currently raising money
           </Typography>
 
-          <Grid container className={classes.card}>
-            <Grid item>
-              <Card variant="outlined">
-                <CardMedia
-                  component="img"
-                  height="240"
-                  image="https://picsum.photos/200/300?random=2"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Chip label="Action" color="primary" className={classes.chip} />
-                  <Typography gutterBottom variant="h5">
-                    Da 5 Bloods
-                  </Typography>
-                  <Typography variant="body1">
-                    Four African-American vets battle the forces of man and nature when they
-                    return to Vietnam seeking the remains of their fallen squad leader and
-                    the gold fortune he helped them hide.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+          <Grid container className={_.isEmpty(openFilms) ? classes.noInvest : classes.card}>
+            {openFilms && _.isEmpty(openFilms) && (
+              <Typography variant="body1" component="div">
+                <em>No films available for investment for now.</em>
+              </Typography>
+            )}
+
+            {openFilms && !_.isEmpty(openFilms) && _.map(openFilms, (film) => (
+              <Grid item key={film.film_uuid}>
+                <Card variant="outlined">
+                  <CardMedia
+                    component="img"
+                    height="240"
+                    image={film.poster_url}
+                    alt={film.name}
+                  />
+                  <CardContent>
+                    <div className={classes.chipContainer}>
+                      {_.map(film.genre, (genre, idx) => (
+                        <Chip key={`${genre}-${idx}`} label={genre} color="primary" />
+                      ))}
+                    </div>
+                    <Typography gutterBottom variant="h5" component="h5">
+                      {film.name}
+                    </Typography>
+                    <Typography variant="body1">
+                      {film.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
 
@@ -216,4 +245,9 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  ...state.projectReducer,
+});
+
+export default connect(mapStateToProps)(Home);
