@@ -60,7 +60,6 @@ const Register = ({
 }) => {
   const classes = useStyles();
   const email = useInput('', { required: true });
-  const username = useInput('', { required: true });
   const password = useInput('', { required: true });
   const re_password = useInput('', {
     required: true,
@@ -79,7 +78,7 @@ const Register = ({
     event.preventDefault();
     location.register = true;
     const registerFormValue = {
-      username: username.value,
+      username: email.value,
       email: email.value,
       password: password.value,
       first_name: first_name.value,
@@ -117,8 +116,7 @@ const Register = ({
   const submitDisabled = () => {
     const errorKeys = Object.keys(formError);
     if (
-      !username.value
-      || !password.value
+      !password.value
       || !email.value
       || !re_password.value
       || !first_name.value
@@ -177,27 +175,6 @@ const Register = ({
                   className={classes.textField}
                   onBlur={(e) => handleBlur(e)}
                   {...last_name.bind}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={isMobile() ? 0 : 3}>
-              <Grid item xs={12}>
-                <TextField
-                  variant="standard"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  error={formError.username && formError.username.error}
-                  helperText={
-                    formError.username ? formError.username.message : ''
-                  }
-                  className={classes.textField}
-                  onBlur={(e) => handleBlur(e, 'required', username)}
-                  {...username.bind}
                 />
               </Grid>
             </Grid>

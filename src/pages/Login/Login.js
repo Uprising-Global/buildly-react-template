@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = ({ dispatch, loading, history }) => {
   const classes = useStyles();
-  const username = useInput('', { required: true });
+  const email = useInput('', { required: true });
   const password = useInput('', { required: true });
   const [error, setError] = useState({});
 
@@ -78,7 +78,7 @@ const Login = ({ dispatch, loading, history }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const loginFormValue = {
-      username: username.value,
+      username: email.value,
       password: password.value,
     };
     dispatch(login(loginFormValue, history));
@@ -112,7 +112,7 @@ const Login = ({ dispatch, loading, history }) => {
 
   const submitDisabled = () => {
     const errorKeys = Object.keys(error);
-    if (!username.value || !password.value) {
+    if (!email.value || !password.value) {
       return true;
     }
     let errorExists = false;
@@ -136,17 +136,16 @@ const Login = ({ dispatch, loading, history }) => {
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              error={error.username && error.username.error}
-              helperText={
-                error && error.username ? error.username.message : ''
-              }
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              type="email"
+              error={error.email && error.email.error}
+              helperText={error.email ? error.email.message : ''}
               className={classes.textField}
-              onBlur={(e) => handleBlur(e, 'required', username)}
-              {...username.bind}
+              onBlur={(e) => handleBlur(e, 'email', email)}
+              {...email.bind}
             />
             <TextField
               variant="standard"
