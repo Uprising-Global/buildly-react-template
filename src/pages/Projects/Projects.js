@@ -91,8 +91,10 @@ const Projects = ({
 }) => {
   const classes = useStyles();
 
+  const [allFilms, setAllFilms] = useState(films);
   const [allGenre, setAllGenre] = useState([]);
   const [allCountryOfProd, setAllCountryOfProd] = useState([]);
+  const [search, setSearch] = useState('');
   const [genre, setGenre] = useState('all');
   const [countryOfProd, setCountryOfProd] = useState('all');
   const [status, setStatus] = useState('all');
@@ -107,18 +109,24 @@ const Projects = ({
 
   useEffect(() => {
     if (!_.isEmpty(films)) {
-      setAllGenre(_.uniq(_.flatMap(films, 'genre')));
-      setAllCountryOfProd(_.uniq(_.flatMap(films, 'country_of_production')));
+      setAllFilms(films);
     }
   }, [films]);
+
+  useEffect(() => {
+    if (!_.isEmpty(allFilms)) {
+      setAllGenre(_.uniq(_.flatMap(allFilms, 'genre')));
+      setAllCountryOfProd(_.uniq(_.flatMap(allFilms, 'country_of_production')));
+    }
+  }, [allFilms]);
 
   useEffect(() => {
     setShowFilms(_.take(filmList, showLimit));
   }, [showLimit]);
 
   useEffect(() => {
-    if (!_.isEmpty(films)) {
-      let filteredFilms = films;
+    if (!_.isEmpty(allFilms)) {
+      let filteredFilms = allFilms;
       if (genre !== 'all') {
         filteredFilms = _.filter(filteredFilms, (film) => (_.includes(film.genre, genre)));
       }
@@ -133,9 +141,18 @@ const Projects = ({
 
       filteredFilms = _.orderBy(filteredFilms, 'create_date', sortBy);
       setFilmList(filteredFilms);
+      setShowLimit(5);
       setShowFilms(_.take(filteredFilms, showLimit));
     }
-  }, [films, genre, countryOfProd, status, sortBy]);
+  }, [allFilms, genre, countryOfProd, status, sortBy]);
+
+  const handleSearch = () => {
+    if (search) {
+      setAllFilms(_.filter(filmList, (film) => _.includes(film.name, search)));
+    } else {
+      setAllFilms(films);
+    }
+  };
 
   return (
     <div className={classes.container}>
@@ -158,6 +175,13 @@ const Projects = ({
                 <SearchIcon color="inherit" />
               </InputAdornment>
             ),
+          }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
           }}
         />
       </div>

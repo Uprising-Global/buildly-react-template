@@ -52,10 +52,14 @@ const useStyles = makeStyles((theme) => ({
   grid1: {
     paddingBottom: theme.spacing(8),
   },
+  bottomHighlight: {
+    stroke: theme.palette.primary.contrastText,
+    strokeWidth: theme.spacing(0.25),
+  },
   grid2: {
     paddingTop: theme.spacing(6),
     textAlign: 'center',
-    borderTop: `2px dashed ${theme.palette.primary.contrastText}`,
+    // borderTop: `2px dashed ${theme.palette.primary.contrastText}`,
   },
   section3: {
     backgroundColor: '#253238',
@@ -169,6 +173,10 @@ const Home = ({ dispatch, loading, films }) => {
             ))}
           </Grid>
         </Grid>
+
+        <svg width="100%" height="1" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <line strokeDasharray="15" x1="0" x2="100%" className={classes.bottomHighlight} />
+        </svg>
 
         <Grid item className={classes.grid2}>
           <Typography variant="h4" color="secondary" className={classes.title}>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import moment from 'moment-timezone';
 import {
-  Box,
-  Button, Grid, Tab, Typography,
+  Grid, Tab, Typography,
 } from '@mui/material';
 import {
   Facebook as FacebookIcon,
@@ -15,8 +15,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import makeStyles from '@mui/styles/makeStyles';
 import uprising from '@assets/uprising.png';
 import Loader from '@components/Loader/Loader';
-import { getAllFilms } from '@redux/project/project.actions';
-import { Route } from 'react-router-dom';
+import { getAllFilms, getFilm, getFilmDealTerm } from '@redux/project/project.actions';
 import Overview from './components/Overview';
 import CastCrew from './components/CastCrew';
 import Updates from './components/Updates';
@@ -42,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
   centerImage: {
     height: '100%',
-    objectFit: 'contain',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
     borderRadius: theme.spacing(2),
   },
   detailsContainer: {
@@ -59,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   shareIcon: {
     marginLeft: theme.spacing(2),
+    textDecoration: 'none',
+    color: theme.palette.primary.contrastText,
   },
   tabList: {
     borderBottom: `1px solid ${theme.palette.primary.contrastText}`,
@@ -94,15 +96,16 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
   bottomHighlight: {
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(2),
-    width: '45%',
-    borderBottom: `1px dashed ${theme.palette.secondary.main}`,
+    stroke: theme.palette.secondary.main,
+    strokeWidth: theme.spacing(0.25),
+  },
+  dealDeatil: {
+    marginTop: theme.spacing(2),
   },
 }));
 
 const FilmDetails = ({
-  dispatch, loading, loaded, films, film_uuid,
+  dispatch, loading, loaded, films, film_uuid, dealTerm,
 }) => {
   const classes = useStyles();
   const [film, setFilm] = useState(null);
@@ -116,9 +119,20 @@ const FilmDetails = ({
 
   useEffect(() => {
     if (films && !_.isEmpty(films)) {
-      setFilm(_.find(films, { film_uuid }));
+      const found = _.find(films, { film_uuid });
+      if (!found || _.isEmpty(found)) {
+        dispatch(getFilm(film_uuid));
+      } else {
+        setFilm(found);
+      }
     }
-  }, [films]);
+
+    if (!dealTerm) {
+      dispatch(getFilmDealTerm(film_uuid));
+    }
+  }, [films, film_uuid]);
+
+  const convertToDollar = (value) => `$${String(value).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
 
   return (
     <div className={classes.container}>
@@ -138,7 +152,12 @@ const FilmDetails = ({
             </Grid>
 
             <Grid item>
-              <img src={film.poster_url} alt={film.name} className={classes.centerImage} />
+              <div
+                className={classes.centerImage}
+                style={{ backgroundImage: `url(${film.poster_url})` }}
+              >
+                {!film.poster_url && film.name}
+              </div>
             </Grid>
 
             <Grid item>
@@ -160,10 +179,18 @@ const FilmDetails = ({
                     <Typography variant="body1" component="div">
                       Share:
                     </Typography>
-                    <TwitterIcon className={classes.shareIcon} />
-                    <FacebookIcon className={classes.shareIcon} />
-                    <InstagramIcon className={classes.shareIcon} />
-                    <LinkedInIcon className={classes.shareIcon} />
+                    <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+                      <TwitterIcon className={classes.shareIcon} />
+                    </a>
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                      <FacebookIcon className={classes.shareIcon} />
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+                      <InstagramIcon className={classes.shareIcon} />
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+                      <LinkedInIcon className={classes.shareIcon} />
+                    </a>
                   </div>
                 </Grid>
               </Grid>
@@ -221,24 +248,24 @@ const FilmDetails = ({
                       style={{ paddingRight: 0 }}
                     />
                   </TabList>
-                  <TabPanel value="overview">
-                    <Overview />
+                  <TabPanel value="overview" style={{ padding: 0 }}>
+                    <Overview film={film} />
                   </TabPanel>
-                  <TabPanel value="cast-crew">
-                    <CastCrew />
+                  <TabPanel value="cast-crew" style={{ padding: 0 }}>
+                    <CastCrew film_uuid={film_uuid} />
                   </TabPanel>
-                  <TabPanel value="updates">
-                    <Updates />
+                  <TabPanel value="updates" style={{ padding: 0 }}>
+                    <Updates film_uuid={film_uuid} />
                   </TabPanel>
-                  <TabPanel value="comments">
-                    <Comments />
+                  <TabPanel value="comments" style={{ padding: 0 }}>
+                    <Comments film_uuid={film_uuid} />
                   </TabPanel>
                 </TabContext>
               </Grid>
             </Grid>
 
             <Grid item xs={3}>
-              <Grid item xs={12} className={classes.investSection}>
+              {/* <Grid item xs={12} className={classes.investSection}>
                 <Typography variant="body1" component="div">
                   Invest section will come here
                 </Typography>
@@ -256,17 +283,92 @@ const FilmDetails = ({
                 <Typography variant="caption" component="div" className={classes.caption}>
                   $100 minimum investment
                 </Typography>
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} className={classes.dealSection}>
                 <Typography variant="h4" component="h4">
                   Deal Terms
                 </Typography>
-                <div className={classes.bottomHighlight} />
+                <svg width="40%" height="28" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <line strokeDasharray="15" x1="0" y1="10" x2="100%" y2="10" className={classes.bottomHighlight} />
+                </svg>
 
-                <div>
-                  Deal term details will come here
-                </div>
+                {dealTerm && dealTerm.production_budget && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Production Budget
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {convertToDollar(dealTerm.production_budget)}
+                    </Typography>
+                  </div>
+                )}
+
+                {dealTerm && dealTerm.greenlight_goal && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Greenlight Goal
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {convertToDollar(dealTerm.greenlight_goal)}
+                    </Typography>
+                  </div>
+                )}
+
+                {dealTerm && dealTerm.maximum_raise && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Maximum Raise
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {convertToDollar(dealTerm.maximum_raise)}
+                    </Typography>
+                  </div>
+                )}
+
+                {dealTerm && dealTerm.investor_equity_pool && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Investor Equity Pool
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {`${dealTerm.investor_equity_pool}%`}
+                    </Typography>
+                  </div>
+                )}
+
+                {dealTerm && dealTerm.minimum_investment && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Minimum Investment
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {convertToDollar(dealTerm.minimum_investment)}
+                    </Typography>
+                  </div>
+                )}
+
+                {dealTerm && dealTerm.maximum_investment && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Maximum Investment
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {convertToDollar(dealTerm.maximum_investment)}
+                    </Typography>
+                  </div>
+                )}
+
+                {dealTerm && dealTerm.deadline_date && (
+                  <div className={classes.dealDeatil}>
+                    <Typography variant="subtitle1" component="div">
+                      Deadline
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" color="#F58020">
+                      {moment(dealTerm.deadline_date).format('MMMM DD, YYYY')}
+                    </Typography>
+                  </div>
+                )}
               </Grid>
             </Grid>
           </Grid>
