@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import { Grid, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
@@ -7,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(1),
     borderBottom: `1px solid ${theme.palette.primary.contrastText}`,
+  },
+  pitch: {
+    paddingTop: theme.spacing(7),
   },
 }));
 
@@ -67,6 +72,12 @@ const Overview = ({ film }) => {
       </Grid>
       <Grid item xs={7.75} className={classes.gridItem}>
         {`${film.film_length} page(s)`}
+      </Grid>
+
+      <Grid item xs={12} className={classes.pitch}>
+        <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+          {film.pitch_details}
+        </ReactMarkdown>
       </Grid>
     </Grid>
   );
