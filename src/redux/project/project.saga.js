@@ -29,9 +29,6 @@ function* getAllFilms(payload) {
       httpService.makeRequest,
       'get',
       `${window.env.API_URL}${projectEndpoint}film/`,
-      null,
-      null,
-      'multipart/form-data',
     );
     yield put({ type: GET_ALL_FILMS_SUCCESS, data: response.data });
   } catch (error) {
@@ -57,9 +54,6 @@ function* getFilm(payload) {
       httpService.makeRequest,
       'get',
       `${window.env.API_URL}${projectEndpoint}film/${payload.film_uuid}`,
-      null,
-      null,
-      'multipart/form-data',
     );
     yield put({ type: GET_FILM_SUCCESS, data: response.data });
   } catch (error) {
@@ -110,9 +104,6 @@ function* getFilmDealTerm(payload) {
       httpService.makeRequest,
       'get',
       `${window.env.API_URL}${projectEndpoint}deal-terms/?film_uuid=${payload.film_uuid}`,
-      null,
-      null,
-      'multipart/form-data',
     );
     yield put({ type: GET_ALL_FILM_DEAL_TERM_SUCCESS, data: response.data[0] });
   } catch (error) {

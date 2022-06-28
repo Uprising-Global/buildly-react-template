@@ -174,7 +174,7 @@ const Home = ({ dispatch, loading, films }) => {
           </Grid>
         </Grid>
 
-        <svg width="100%" height="1" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg height="1" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <line strokeDasharray="15" x1="0" x2="100%" className={classes.bottomHighlight} />
         </svg>
 

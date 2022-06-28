@@ -15,7 +15,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import makeStyles from '@mui/styles/makeStyles';
 import uprising from '@assets/uprising.png';
 import Loader from '@components/Loader/Loader';
-import { getAllFilms, getFilm, getFilmDealTerm } from '@redux/project/project.actions';
+import { getAllFilms, getFilm, getFilmCastCrew, getFilmDealTerm } from '@redux/project/project.actions';
 import Overview from './components/Overview';
 import CastCrew from './components/CastCrew';
 import Updates from './components/Updates';
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FilmDetails = ({
-  dispatch, loading, loaded, films, film_uuid, dealTerm,
+  dispatch, loading, loaded, films, film_uuid, dealTerm, castCrew,
 }) => {
   const classes = useStyles();
   const [film, setFilm] = useState(null);
@@ -127,9 +127,8 @@ const FilmDetails = ({
       }
     }
 
-    if (!dealTerm) {
-      dispatch(getFilmDealTerm(film_uuid));
-    }
+    dispatch(getFilmDealTerm(film_uuid));
+    dispatch(getFilmCastCrew(film_uuid));
   }, [films, film_uuid]);
 
   const convertToDollar = (value) => `$${String(value).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
@@ -197,16 +196,7 @@ const FilmDetails = ({
 
               <Grid item xs={12} mt={3}>
                 <Typography variant="subtitle1" component="div">
-                  {/* {film.description} */}
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less normal
-                  distribution of letters, as opposed to using 'Content here, content
-                  here', making it look like readable English. Many desktop publishing
-                  packages and web page editors now use Lorem Ipsum as their default
-                  model text, and a search for 'lorem ipsum' will uncover many web sites
-                  still in their infancy. Various versions have evolved over the years,
-                  sometimes by accident, sometimes on purpose (injected humour and the like).
+                  {film.description}
                 </Typography>
               </Grid>
 
@@ -252,7 +242,7 @@ const FilmDetails = ({
                     <Overview film={film} />
                   </TabPanel>
                   <TabPanel value="cast-crew" style={{ padding: 0 }}>
-                    <CastCrew film_uuid={film_uuid} />
+                    <CastCrew castCrew={castCrew} />
                   </TabPanel>
                   <TabPanel value="updates" style={{ padding: 0 }}>
                     <Updates film_uuid={film_uuid} />
@@ -289,8 +279,8 @@ const FilmDetails = ({
                 <Typography variant="h4" component="h4">
                   Deal Terms
                 </Typography>
-                <svg width="40%" height="28" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                  <line strokeDasharray="15" x1="0" y1="10" x2="100%" y2="10" className={classes.bottomHighlight} />
+                <svg height="28" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <line strokeDasharray="15" x1="0" y1="10" x2="100" y2="10" className={classes.bottomHighlight} />
                 </svg>
 
                 {dealTerm && dealTerm.production_budget && (
