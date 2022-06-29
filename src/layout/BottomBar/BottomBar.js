@@ -168,7 +168,7 @@ const BottomBar = ({ dispatch }) => {
             variant="outlined"
             margin="normal"
             required
-            id="email"
+            id="subscription-email"
             placeholder="Your e-mail"
             name="email"
             autoComplete="email"

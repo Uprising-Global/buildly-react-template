@@ -15,7 +15,9 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import makeStyles from '@mui/styles/makeStyles';
 import uprising from '@assets/uprising.png';
 import Loader from '@components/Loader/Loader';
-import { getAllFilms, getFilm, getFilmCastCrew, getFilmDealTerm } from '@redux/project/project.actions';
+import {
+  getAllFilms, getFilm, getFilmCastCrew, getFilmDealTerm, getFilmUpdates,
+} from '@redux/project/project.actions';
 import Overview from './components/Overview';
 import CastCrew from './components/CastCrew';
 import Updates from './components/Updates';
@@ -105,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FilmDetails = ({
-  dispatch, loading, loaded, films, film_uuid, dealTerm, castCrew,
+  dispatch, loading, loaded, films, film_uuid, dealTerm, castCrew, filmUpdates,
 }) => {
   const classes = useStyles();
   const [film, setFilm] = useState(null);
@@ -129,6 +131,7 @@ const FilmDetails = ({
 
     dispatch(getFilmDealTerm(film_uuid));
     dispatch(getFilmCastCrew(film_uuid));
+    dispatch(getFilmUpdates(film_uuid));
   }, [films, film_uuid]);
 
   const convertToDollar = (value) => `$${String(value).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
@@ -245,7 +248,7 @@ const FilmDetails = ({
                     <CastCrew castCrew={castCrew} />
                   </TabPanel>
                   <TabPanel value="updates" style={{ padding: 0 }}>
-                    <Updates film_uuid={film_uuid} />
+                    <Updates startDate={film.create_date} filmUpdates={_.orderBy(filmUpdates, 'create_date', 'desc')} />
                   </TabPanel>
                   <TabPanel value="comments" style={{ padding: 0 }}>
                     <Comments film_uuid={film_uuid} />
