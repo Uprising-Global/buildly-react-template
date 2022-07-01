@@ -19,6 +19,7 @@ import PrivacyPolicy from '@pages/PrivacyPolicy/PrivacyPolicy';
 import Projects from '@pages/Projects/Projects';
 import Blogs from '@pages/Blogs/Blogs';
 import FilmDetails from '@pages/FilmDetails/FilmDetails';
+import UpdateDetails from '@pages/FilmDetails/components/UpdateDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +52,11 @@ const Container = ({ location, history }) => {
             exact
             path={`${routes.FILM}/:film_uuid`}
             component={FilmDetails}
+          />
+          <Route
+            exact
+            path={`${routes.FILM_UPDATE}/:update_uuid`}
+            component={UpdateDetails}
           />
           <Route path={routes.LOGIN} component={Login} />
           <Route path={routes.REGISTER} component={Register} />

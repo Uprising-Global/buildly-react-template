@@ -19,6 +19,10 @@ export const GET_ALL_FILM_UPDATES = 'PROJECT/GET_ALL_FILM_UPDATES';
 export const GET_ALL_FILM_UPDATES_SUCCESS = 'PROJECT/GET_ALL_FILM_UPDATES_SUCCESS';
 export const GET_ALL_FILM_UPDATES_FAIL = 'PROJECT/GET_ALL_FILM_UPDATES_FAIL';
 
+export const EDIT_UPDATE = 'PROJECT/EDIT_UPDATE';
+export const EDIT_UPDATE_SUCCESS = 'PROJECT/EDIT_UPDATE_SUCCESS';
+export const EDIT_UPDATE_FAIL = 'PROJECT/EDIT_UPDATE_FAIL';
+
 /**
  * Get all films action
  */
@@ -47,3 +51,9 @@ export const getFilmDealTerm = (film_uuid) => ({ type: GET_ALL_FILM_DEAL_TERM, f
  * @param film_uuid
  */
 export const getFilmUpdates = (film_uuid) => ({ type: GET_ALL_FILM_UPDATES, film_uuid });
+
+/**
+ * Edit update action
+ * @param data
+ */
+export const editUpdate = (update_uuid, data) => ({ type: EDIT_UPDATE, update_uuid, data });

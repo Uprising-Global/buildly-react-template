@@ -14,6 +14,9 @@ import {
   GET_ALL_FILM_UPDATES,
   GET_ALL_FILM_UPDATES_SUCCESS,
   GET_ALL_FILM_UPDATES_FAIL,
+  EDIT_UPDATE,
+  EDIT_UPDATE_SUCCESS,
+  EDIT_UPDATE_FAIL,
 } from '@redux/project/project.actions';
 import {
   put, takeLatest, all, call,
@@ -148,6 +151,34 @@ function* getFilmUpdates(payload) {
   }
 }
 
+function* editUpdate(payload) {
+  try {
+    const response = yield call(
+      httpService.makeRequest,
+      'patch',
+      `${window.env.API_URL}${projectEndpoint}update/${payload.update_uuid}/`,
+      payload.data,
+      null,
+      'multipart/form-data',
+    );
+    yield put({ type: EDIT_UPDATE_SUCCESS, data: response.data });
+  } catch (error) {
+    yield [
+      yield put(
+        showAlert({
+          type: 'error',
+          open: true,
+          message: 'Couldn\'t edit the update!',
+        }),
+      ),
+      yield put({
+        type: EDIT_UPDATE_FAIL,
+        error,
+      }),
+    ];
+  }
+}
+
 function* watchGetAllFilms() {
   yield takeLatest(GET_ALL_FILMS, getAllFilms);
 }
@@ -168,6 +199,10 @@ function* watchGetFilmUpdates() {
   yield takeLatest(GET_ALL_FILM_UPDATES, getFilmUpdates);
 }
 
+function* watchEditUpdate() {
+  yield takeLatest(EDIT_UPDATE, editUpdate);
+}
+
 export default function* authSaga() {
   yield all([
     watchGetAllFilms(),
@@ -175,5 +210,6 @@ export default function* authSaga() {
     watchGetFilmCastCrew(),
     watchGetFilmDealTerm(),
     watchGetFilmUpdates(),
+    watchEditUpdate(),
   ]);
 }

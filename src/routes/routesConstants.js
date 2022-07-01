@@ -10,6 +10,7 @@ export const routes = {
   FAQS: '/faqs',
   PRIVACY_POLICY: '/privacy-policy',
   FILM: '/film',
+  FILM_UPDATE: '/film-update',
   APP: '/app',
   DASHBOARD: '/app/dashboard',
   USER_MANAGEMENT: '/app/profile/users',

@@ -38,3 +38,12 @@ describe('actions', () => {
     expect(actions.getFilmUpdates(film_uuid)).toEqual(expectedAction);
   });
 });
+
+describe('actions', () => {
+  it('should create an action to edit an update', () => {
+    const update_uuid = 'esioy427-sdg329-q39857qgb-wquryqw';
+    const data = { name: 'edited update' };
+    const expectedAction = { type: actions.EDIT_UPDATE, update_uuid, data };
+    expect(actions.editUpdate(update_uuid, data)).toEqual(expectedAction);
+  });
+});

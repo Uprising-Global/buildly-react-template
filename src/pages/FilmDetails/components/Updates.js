@@ -14,6 +14,7 @@ import { loadCoreuserData } from '@redux/coreuser/coreuser.actions';
 import { connect } from 'react-redux';
 import Loader from '@components/Loader/Loader';
 import { httpService } from '@modules/http/http.service';
+import { routes } from '@routes/routesConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Updates = ({
-  startDate, filmUpdates, dispatch, loading, loaded, user, allUsers,
+  startDate, filmUpdates, dispatch, loading, loaded, allUsers,
 }) => {
   const classes = useStyles();
   const [allUpdates, setAllUpdates] = useState([]);
@@ -76,15 +77,15 @@ const Updates = ({
   }, []);
 
   useEffect(() => {
-    if (user && allUsers && !_.isEmpty(allUsers)) {
+    if (allUsers && !_.isEmpty(allUsers)) {
       processUpdates();
     }
-  }, [filmUpdates, allUsers, user]);
+  }, [filmUpdates, allUsers]);
 
   const processUpdates = async () => {
     const updates = await Promise.all(_.map(filmUpdates, async (update) => {
       let updt = update;
-      const userData = _.find(allUsers, { core_user_uuid: user.core_user_uuid });
+      const userData = _.find(allUsers, { core_user_uuid: update.user_uuid });
 
       if (userData) {
         updt = {
@@ -113,6 +114,7 @@ const Updates = ({
   return (
     <div className={classes.container}>
       {(loading || processing) && <Loader open={loading} />}
+
       {(loaded || !processing) && allUpdates && !_.isEmpty(allUpdates)
       && _.map(allUpdates, (filmUpdate, idx) => (
         <React.Fragment key={filmUpdate.update_uuid}>
@@ -123,19 +125,32 @@ const Updates = ({
               image={filmUpdate.poster_url}
               alt={filmUpdate.name}
             />
+
             <CardContent className={classes.cardContent}>
               <Typography variant="h2" component="h2">
                 {filmUpdate.name}
               </Typography>
+
               <Typography variant="body1" component="div" color="secondary">
                 {moment(filmUpdate.create_date).format('MMMM DD, YYYY')}
               </Typography>
+
               <div className={classes.textContainer}>
                 <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                   {filmUpdate.description}
                 </ReactMarkdown>
               </div>
-              <Link to="/" className={classes.readMore}>...Read more</Link>
+
+              <Link
+                to={{
+                  pathname: `${routes.FILM_UPDATE}/${filmUpdate.update_uuid}`,
+                  state: { film_uuid: filmUpdate.film_uuid },
+                }}
+                className={classes.readMore}
+              >
+                ...Read more
+              </Link>
+
               <Grid container className={classes.cardBottom}>
                 <Grid item xs={4}>
                   {filmUpdate && filmUpdate.owner && (
@@ -147,11 +162,13 @@ const Updates = ({
                     </div>
                   )}
                 </Grid>
+
                 <Grid item xs={8} className={classes.likeComments}>
                   <FavoriteBorder fontSize="small" />
                   <Typography variant="subtitle1" component="div">
-                    {`${_.size(filmUpdate.likes)} ${_.size(filmUpdate.likes) > 1 ? 'Likes' : 'Like'}`}
+                    {`${_.size(filmUpdate.update_likes)} ${_.size(filmUpdate.update_likes) > 1 ? 'Likes' : 'Like'}`}
                   </Typography>
+
                   <Forum fontSize="small" htmlColor="#F58020" />
                   <Typography variant="subtitle1" component="div" color="#F58020">
                     {`${filmUpdate.commentCount} ${filmUpdate.commentCount > 1 ? 'Comments' : 'Comment'}`}
@@ -160,15 +177,18 @@ const Updates = ({
               </Grid>
             </CardContent>
           </Card>
+
           <svg width="100%" height="130" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <line strokeDasharray="12" x1="50%" y1="10" x2="50%" y2="120" className={classes.separator} />
           </svg>
         </React.Fragment>
       ))}
+
       <div style={{ textAlign: 'center' }}>
         <Typography variant="h4" component="h4" color="secondary">
           {moment(startDate).format('MMMM DD, YYYY')}
         </Typography>
+
         <Typography variant="h4" component="h4">
           The Fundraising Has Begun!
         </Typography>
@@ -181,7 +201,6 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   loading: state.coreuserReducer.loading || state.authReducer.loading,
   loaded: state.coreuserReducer.loaded || state.authReducer.loaded,
-  user: state.authReducer.data,
   allUsers: state.coreuserReducer.data,
 });
 

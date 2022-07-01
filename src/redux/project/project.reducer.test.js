@@ -215,3 +215,44 @@ describe('Get updates for a film reducer', () => {
     });
   });
 });
+
+describe('Edit update reducer', () => {
+  it('Empty reducer', () => {
+    expect(reducer.default(
+      initialState,
+      { type: actions.EDIT_UPDATE },
+    )).toEqual({
+      ...initialState,
+      loading: true,
+    });
+  });
+
+  it('edit update success reducer', () => {
+    const data = [{
+      update_uuid: 'kfhwue-y38wgws-3i2wfhv-84gheu',
+      name: 'edited title',
+    }];
+
+    expect(reducer.default(
+      initialState,
+      { type: actions.EDIT_UPDATE_SUCCESS, data },
+    )).toEqual({
+      ...initialState,
+      loading: false,
+      loaded: true,
+      filmUpdates: data,
+    });
+  });
+
+  it('edit update fail reducer', () => {
+    expect(reducer.default(
+      initialState,
+      { type: actions.EDIT_UPDATE_FAIL },
+    )).toEqual({
+      ...initialState,
+      loading: false,
+      loaded: true,
+      error: undefined,
+    });
+  });
+});

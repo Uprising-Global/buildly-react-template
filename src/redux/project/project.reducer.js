@@ -15,6 +15,9 @@ import {
   GET_ALL_FILM_UPDATES,
   GET_ALL_FILM_UPDATES_SUCCESS,
   GET_ALL_FILM_UPDATES_FAIL,
+  EDIT_UPDATE,
+  EDIT_UPDATE_SUCCESS,
+  EDIT_UPDATE_FAIL,
 } from './project.actions';
 
 const initialState = {
@@ -35,6 +38,7 @@ export default (state = initialState, action) => {
     case GET_ALL_FILM_CAST_CREW:
     case GET_ALL_FILM_DEAL_TERM:
     case GET_ALL_FILM_UPDATES:
+    case EDIT_UPDATE:
       return {
         ...state,
         loading: true,
@@ -47,6 +51,7 @@ export default (state = initialState, action) => {
     case GET_ALL_FILM_CAST_CREW_FAIL:
     case GET_ALL_FILM_DEAL_TERM_FAIL:
     case GET_ALL_FILM_UPDATES_FAIL:
+    case EDIT_UPDATE_FAIL:
       return {
         ...state,
         loading: false,
@@ -106,6 +111,20 @@ export default (state = initialState, action) => {
         loaded: true,
         filmUpdates: action.data,
       };
+
+    case EDIT_UPDATE_SUCCESS: {
+      const updates = _.map(state.filmUpdates, (updt) => (
+        updt.update_uuid === action.data.update_uuid
+          ? action.data
+          : updt
+      ));
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        filmUpdates: updates,
+      };
+    }
 
     default:
       return state;
