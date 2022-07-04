@@ -11,10 +11,11 @@ import {
   Close, Favorite, FavoriteBorder, Forum,
 } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
+import Comment from '@components/Comment/Comment';
 import Loader from '@components/Loader/Loader';
 import { loadCoreuserData } from '@redux/coreuser/coreuser.actions';
 import { editUpdate, getFilmUpdates } from '@redux/project/project.actions';
-import { uptime } from 'process';
+import { allComments, clearComments, newComment, updateComment } from '@redux/comments/comments.actions';
 
 const useStyles = makeStyles((theme) => ({
   close: {
@@ -105,12 +106,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UpdateDetails = ({
-  history, location, dispatch, loading, update_uuid, filmUpdates, allUsers, user,
+  history, location, dispatch, loading, update_uuid, filmUpdates, allUsers, user, comments,
 }) => {
   const classes = useStyles();
   const commentSocket = useRef(null);
   const [update, setUpdate] = useState(filmUpdates && _.find(filmUpdates, { update_uuid }));
-  const [comments, setComments] = useState([]);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -123,6 +123,10 @@ const UpdateDetails = ({
     let updt = null;
     if (filmUpdates && !_.isEmpty(filmUpdates)) {
       updt = _.find(filmUpdates, { update_uuid });
+    }
+
+    if (!allUsers || _.isEmpty(allUsers)) {
+      dispatch(loadCoreuserData());
     }
 
     if (allUsers && !_.isEmpty(allUsers)) {
@@ -158,19 +162,28 @@ const UpdateDetails = ({
       commentSocket.current.onmessage = (msg) => {
         const data = JSON.parse(msg.data);
         if (data.command === 'fetch_comments') {
-          setComments(data.comments);
+          dispatch(allComments(data.comments));
+        }
+
+        if (data.command === 'new_comment') {
+          dispatch(newComment(data.comment));
+        }
+
+        if (data.command === 'update_comment') {
+          dispatch(updateComment(data.comment));
         }
       };
     }
 
     return () => {
       if (commentSocket.current) {
+        dispatch(clearComments());
         commentSocket.current.close();
       }
     };
   }, [update_uuid]);
 
-  const likeComment = (type) => {
+  const likeUpdate = (type) => {
     const formData = new FormData();
     let updateLikes = update.update_likes;
 
@@ -189,6 +202,19 @@ const UpdateDetails = ({
 
     formData.append('update_likes', JSON.stringify(updateLikes));
     dispatch(editUpdate(update.update_uuid, formData));
+  };
+
+  const postComment = (e) => {
+    commentSocket.current.send(
+      JSON.stringify({
+        command: 'new_comment',
+        group_uuid: update_uuid,
+        author: user.core_user_uuid,
+        comment_message: message,
+        likes: [],
+      }),
+    );
+    setMessage('');
   };
 
   return (
@@ -253,12 +279,12 @@ const UpdateDetails = ({
 
                   {user && _.includes(update.update_likes, user.core_user_uuid)
                     ? (
-                      <IconButton onClick={(e) => likeComment('remove')}>
+                      <IconButton onClick={(e) => likeUpdate('remove')}>
                         <Favorite fontSize="small" />
                       </IconButton>
                     )
                     : (
-                      <IconButton onClick={(e) => likeComment('add')}>
+                      <IconButton onClick={(e) => likeUpdate('add')}>
                         <FavoriteBorder fontSize="small" />
                       </IconButton>
                     )}
@@ -302,11 +328,17 @@ const UpdateDetails = ({
                     color="primary"
                     disabled={!message}
                     className={classes.postButton}
+                    onClick={postComment}
                   >
                     Post
                   </Button>
                 </Grid>
               )}
+
+              <Comment
+                commentSocket={commentSocket}
+                group_uuid={update_uuid}
+              />
 
               <Button variant="contained" type="button" onClick={history.goBack} className={classes.goBack}>
                 Go Back
@@ -322,6 +354,7 @@ const UpdateDetails = ({
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   ...state.projectReducer,
+  ...state.commentsReducer,
   update_uuid: ownProps.match.params.update_uuid,
   loading: state.projectReducer.loading || state.coreuserReducer.loading,
   allUsers: state.coreuserReducer.data,
