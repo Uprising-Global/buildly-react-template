@@ -1,6 +1,6 @@
 import React from 'react';
+import { Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Typography from '@mui/material/Typography';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,10 +17,10 @@ const PrivacyPolicy = () => {
 
   return (
     <div className={classes.container}>
-      <Typography component="h3" variant="h3">
+      <Typography variant="h3">
         PrivacyPolicy
       </Typography>
-      <Typography className={classes.body} component="div" variant="body1">
+      <Typography className={classes.body} variant="body1">
         Privacy Policy details will be available here.
       </Typography>
     </div>

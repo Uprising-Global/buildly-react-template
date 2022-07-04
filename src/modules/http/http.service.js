@@ -11,7 +11,7 @@ import { oauthService } from '@modules/oauth/oauth.service';
  * @param {string=} responseType - the expected response type from the server
  * @returns response of the request or error
  */
-function makeRequest(method, url, body, useJwt, contentType, responseType) {
+function makeRequest(method, url, body, useJwt, contentType, responseType, requestHeader) {
   let token;
   let tokenType;
   if (useJwt) {
@@ -21,10 +21,19 @@ function makeRequest(method, url, body, useJwt, contentType, responseType) {
     tokenType = 'Bearer';
     token = oauthService.getAccessToken();
   }
-  const headers = {
+  let headers = {
     Authorization: `${tokenType} ${token}`,
-    'Content-Type': contentType || 'application/json',
+    // 'Content-Type': contentType || 'application/json', // Commenting to make it work for GCP
   };
+  if (method !== 'GET' && method !== 'get' && method !== 'OPTIONS' && method !== 'options') {
+    headers['Content-Type'] = contentType || 'application/json';
+  }
+  if (requestHeader) {
+    headers = {
+      ...headers,
+      requestHeader,
+    };
+  }
   const options = {
     method,
     data: body,
@@ -35,6 +44,28 @@ function makeRequest(method, url, body, useJwt, contentType, responseType) {
   return http.request(url, options);
 }
 
+function makeOptionsRequest(method, url, useJwt) {
+  let token;
+  let tokenType;
+  if (useJwt) {
+    tokenType = 'JWT';
+    token = oauthService.getJwtToken();
+  }
+  const headers = {
+    Authorization: `${tokenType} ${token}`,
+  };
+  const body = {
+    jwt_iss: 'Buildly',
+  };
+  const options = {
+    method,
+    headers,
+    returnPromise: true,
+  };
+  return fetch(url, options);
+}
+
 export const httpService = {
   makeRequest,
+  makeOptionsRequest,
 };

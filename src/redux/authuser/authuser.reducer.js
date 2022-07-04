@@ -158,7 +158,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         loaded: true,
-        data: action.user,
+        data: null,
         error: null,
       };
 

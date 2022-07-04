@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
+import {
+  Button, CssBaseline, CircularProgress, Container, Grid, Link, TextField, Typography,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
 import { useInput } from '@hooks/useInput';
 import { register } from '@redux/authuser/authuser.actions';
-import Grid from '@mui/material/Grid';
 import { validators } from '@utils/validators';
 import { isMobile } from '@utils/mediaQuery';
 import { routes } from '@routes/routesConstants';
@@ -65,7 +60,6 @@ const Register = ({
 }) => {
   const classes = useStyles();
   const email = useInput('', { required: true });
-  const username = useInput('', { required: true });
   const password = useInput('', { required: true });
   const re_password = useInput('', {
     required: true,
@@ -84,7 +78,7 @@ const Register = ({
     event.preventDefault();
     location.register = true;
     const registerFormValue = {
-      username: username.value,
+      username: email.value,
       email: email.value,
       password: password.value,
       first_name: first_name.value,
@@ -122,8 +116,7 @@ const Register = ({
   const submitDisabled = () => {
     const errorKeys = Object.keys(formError);
     if (
-      !username.value
-      || !password.value
+      !password.value
       || !email.value
       || !re_password.value
       || !first_name.value
@@ -142,7 +135,7 @@ const Register = ({
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography variant="h5">
             Register
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
@@ -182,27 +175,6 @@ const Register = ({
                   className={classes.textField}
                   onBlur={(e) => handleBlur(e)}
                   {...last_name.bind}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={isMobile() ? 0 : 3}>
-              <Grid item xs={12}>
-                <TextField
-                  variant="standard"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  error={formError.username && formError.username.error}
-                  helperText={
-                    formError.username ? formError.username.message : ''
-                  }
-                  className={classes.textField}
-                  onBlur={(e) => handleBlur(e, 'required', username)}
-                  {...username.bind}
                 />
               </Grid>
             </Grid>

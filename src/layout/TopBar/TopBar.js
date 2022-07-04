@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {
+  AppBar, Avatar, Button, Divider, ListItemText, Menu, MenuItem, Toolbar,
+} from '@mui/material';
+import {
+  Logout as LogoutIcon,
+  ManageAccounts as ManageAccountsIcon,
+  Menu as MenuIcon,
+} from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
-import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
 import logo from '@assets/topbar-logo.png';
 import { logout } from '@redux/authuser/authuser.actions';
 import { routes } from '@routes/routesConstants';
@@ -56,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
   navLink: {
     textDecoration: 'none',
     color: theme.palette.primary.contrastText,
-    fontWeight: 700,
     letterSpacing: theme.spacing(0.003),
     marginLeft: theme.spacing(2),
   },

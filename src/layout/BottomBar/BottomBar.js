@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Button, Grid, TextField, Typography,
+} from '@mui/material';
+import {
+  Facebook as FacebookIcon,
+  Instagram as InstagramIcon,
+  LinkedIn as LinkedInIcon,
+  Twitter as TwitterIcon,
+  YouTube as YouTubeIcon,
+} from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import logo from '@assets/logo.png';
 import { useInput } from '@hooks/useInput';
 import { validators } from '@utils/validators';
@@ -132,15 +133,15 @@ const BottomBar = ({ dispatch }) => {
     <Grid container className={classes.appBar}>
       <Grid item className={classes.gridLeft}>
         <img className={classes.logo} src={logo} alt="Uprising Logo" />
-        <Typography component="div" variant="body1">
+        <Typography variant="body1">
           <b>UPRISING</b>
           {' '}
           is a film investment
         </Typography>
-        <Typography component="div" variant="body1">
+        <Typography variant="body1">
           platform for everyone.
         </Typography>
-        <Typography component="div" variant="body1" className={classes.caption}>
+        <Typography variant="body1" className={classes.caption}>
           Tell your story.
         </Typography>
       </Grid>
@@ -159,7 +160,7 @@ const BottomBar = ({ dispatch }) => {
         </Grid>
       </Grid>
       <Grid item className={classes.gridLeft}>
-        <Typography component="div" variant="caption">
+        <Typography variant="caption">
           Subscribe to Uprising
         </Typography>
         <form className={classes.subscriber} onSubmit={handleSubmit}>
@@ -167,7 +168,7 @@ const BottomBar = ({ dispatch }) => {
             variant="outlined"
             margin="normal"
             required
-            id="email"
+            id="subscription-email"
             placeholder="Your e-mail"
             name="email"
             autoComplete="email"
@@ -188,7 +189,7 @@ const BottomBar = ({ dispatch }) => {
         </form>
       </Grid>
       <Grid item className={classes.gridRight}>
-        <Typography component="div" variant="body1" className={classes.findUs}>
+        <Typography variant="body1" className={classes.findUs}>
           Find us at:
         </Typography>
         <div className={classes.social}>

@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
+import {
+  Button, CssBaseline, CircularProgress, Container, Grid, Link, TextField, Typography,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
 import { useInput } from '@hooks/useInput';
 import {
   sendPasswordResetLink,
@@ -121,7 +116,7 @@ const ForgotPassword = ({ dispatch, loading, history }) => {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom>
             Enter your registered Email
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>

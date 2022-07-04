@@ -9,15 +9,11 @@ import {
 } from 'react-notifications';
 import { Route } from 'react-router-dom';
 import { routes } from '@routes/routesConstants';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import makeStyles from '@mui/styles/makeStyles';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {
+  Button, Box, Grid, Tab, Tabs, TextField, Typography,
+} from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
+import makeStyles from '@mui/styles/makeStyles';
 import { rem } from 'polished';
 import Users from './Users/Users';
 import UserGroups from './UserGroups/UserGroups';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import makeStyles from '@mui/styles/makeStyles';
 import { IconButton, Slide, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import makeStyles from '@mui/styles/makeStyles';
 import { hideAlert } from '@redux/alert/alert.actions';
 
 const useStyles = makeStyles((theme) => ({

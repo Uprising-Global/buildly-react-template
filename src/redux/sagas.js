@@ -4,6 +4,7 @@ import { all } from 'redux-saga/effects';
 import coreuserSaga from '@redux/coreuser/coreuser.saga';
 import authSaga from './authuser/authuser.saga';
 import coregroupSaga from './coregroup/coregroup.saga';
+import projectSaga from './project/project.saga';
 
 export default function* rootSaga() {
   yield all([
@@ -11,5 +12,6 @@ export default function* rootSaga() {
     coreuserSaga(),
     coregroupSaga(),
     crudSaga(),
+    projectSaga(),
   ]);
 }

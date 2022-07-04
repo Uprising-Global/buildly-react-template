@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
+import {
+  Button, CssBaseline, Container, CircularProgress, Grid, Link, TextField, Typography,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
 import { useInput } from '@hooks/useInput';
 import { login, validateResetPasswordToken } from '@redux/authuser/authuser.actions';
 import { validators } from '@utils/validators';
@@ -61,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = ({ dispatch, loading, history }) => {
   const classes = useStyles();
-  const username = useInput('', { required: true });
+  const email = useInput('', { required: true });
   const password = useInput('', { required: true });
   const [error, setError] = useState({});
 
@@ -83,7 +78,7 @@ const Login = ({ dispatch, loading, history }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const loginFormValue = {
-      username: username.value,
+      username: email.value,
       password: password.value,
     };
     dispatch(login(loginFormValue, history));
@@ -117,7 +112,7 @@ const Login = ({ dispatch, loading, history }) => {
 
   const submitDisabled = () => {
     const errorKeys = Object.keys(error);
-    if (!username.value || !password.value) {
+    if (!email.value || !password.value) {
       return true;
     }
     let errorExists = false;
@@ -132,7 +127,7 @@ const Login = ({ dispatch, loading, history }) => {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h4">
+          <Typography variant="h4">
             LOG IN
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
@@ -141,17 +136,16 @@ const Login = ({ dispatch, loading, history }) => {
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              error={error.username && error.username.error}
-              helperText={
-                error && error.username ? error.username.message : ''
-              }
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              type="email"
+              error={error.email && error.email.error}
+              helperText={error.email ? error.email.message : ''}
               className={classes.textField}
-              onBlur={(e) => handleBlur(e, 'required', username)}
-              {...username.bind}
+              onBlur={(e) => handleBlur(e, 'email', email)}
+              {...email.bind}
             />
             <TextField
               variant="standard"
