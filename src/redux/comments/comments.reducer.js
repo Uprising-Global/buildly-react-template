@@ -18,15 +18,53 @@ export default (state = initialState, action) => {
     case ALL_COMMENTS:
       return { ...state, comments: action.comments };
 
-    case NEW_COMMENT:
-      return { ...state, comments: _.orderBy([...state.comments, action.comment], 'create_date', 'desc') };
+    case NEW_COMMENT: {
+      const newGroupComment = _.isEmpty(state.comments) || (!_.isEmpty(state.comments) && (
+        state.comments[0].group_uuid === action.comment.group_uuid
+      ));
+      let newComments = [];
+
+      if (newGroupComment) {
+        newComments = [...state.comments, action.comment];
+      } else {
+        newComments = _.map(state.comments, (comment) => (
+          comment && comment.comment_uuid === action.comment.group_uuid
+            ? { ...comment, replies: [...comment.replies, action.comment] }
+            : comment
+        ));
+      }
+
+      return { ...state, comments: _.orderBy(newComments, 'create_date', 'desc') };
+    }
 
     case UPDATE_COMMENT: {
-      const updatedComments = _.map(state.comments, (comment) => (
-        comment.id === action.comment.id
-          ? action.comment
-          : comment
-      ));
+      const groupComment = _.find(state.comments, { comment_uuid: action.comment.comment_uuid });
+      let updatedComments = [];
+
+      if (groupComment) {
+        updatedComments = _.map(state.comments, (comment) => (
+          comment.comment_uuid === action.comment.comment_uuid
+            ? action.comment
+            : comment
+        ));
+      } else {
+        updatedComments = _.map(state.comments, (comment) => {
+          let returnComment = comment;
+          if (comment.comment_uuid === action.comment.group_uuid) {
+            returnComment = {
+              ...returnComment,
+              replies: _.map(comment.replies, (reply) => (
+                reply.comment_uuid === action.comment.comment_uuid
+                  ? action.comment
+                  : reply
+              )),
+            };
+          }
+
+          return returnComment;
+        });
+      }
+
       return { ...state, comments: _.orderBy(updatedComments, 'create_date', 'desc') };
     }
 
