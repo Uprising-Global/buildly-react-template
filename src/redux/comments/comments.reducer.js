@@ -19,9 +19,9 @@ export default (state = initialState, action) => {
       return { ...state, comments: action.comments };
 
     case NEW_COMMENT: {
-      const newGroupComment = !_.isEmpty(state.comments) && (
+      const newGroupComment = _.isEmpty(state.comments) || (!_.isEmpty(state.comments) && (
         state.comments[0].group_uuid === action.comment.group_uuid
-      );
+      ));
       let newComments = [];
 
       if (newGroupComment) {
@@ -38,12 +38,12 @@ export default (state = initialState, action) => {
     }
 
     case UPDATE_COMMENT: {
-      const groupComment = _.find(state.comments, { id: action.comment.id });
+      const groupComment = _.find(state.comments, { comment_uuid: action.comment.comment_uuid });
       let updatedComments = [];
 
       if (groupComment) {
         updatedComments = _.map(state.comments, (comment) => (
-          comment.id === action.comment.id
+          comment.comment_uuid === action.comment.comment_uuid
             ? action.comment
             : comment
         ));
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
             returnComment = {
               ...returnComment,
               replies: _.map(comment.replies, (reply) => (
-                reply.id === action.comment.id
+                reply.comment_uuid === action.comment.comment_uuid
                   ? action.comment
                   : reply
               )),

@@ -146,7 +146,7 @@ const Comment = ({
                 <Avatar
                   variant="rounded"
                   alt={`${commentAuthor?.first_name} ${commentAuthor?.last_name}`}
-                  src={commentAuthor.avatar}
+                  src={commentAuthor?.avatar}
                   sx={{ width: 48, height: 48 }}
                 />
               </Grid>
@@ -182,7 +182,10 @@ const Comment = ({
 
                 {user && (
                   <>
-                    <IconButton className={classes.reply} onClick={(e) => setShowInput(comment.comment_uuid)}>
+                    <IconButton
+                      className={classes.reply}
+                      onClick={(e) => setShowInput(comment.comment_uuid)}
+                    >
                       <Edit />
                     </IconButton>
                     <Typography variant="body1" component="div" className={classes.reply}>
@@ -193,7 +196,8 @@ const Comment = ({
               </Grid>
             </Grid>
 
-            {comment && comment.replies && !_.isEmpty(comment.replies) && _.map(comment.replies, (reply, index) => {
+            {comment && comment.replies && !_.isEmpty(comment.replies)
+            && _.map(comment.replies, (reply, index) => {
               const replyAuthor = _.find(allUsers, { core_user_uuid: reply.author });
 
               return (
@@ -206,11 +210,11 @@ const Comment = ({
                     <Avatar
                       variant="rounded"
                       alt={`${replyAuthor?.first_name} ${replyAuthor?.last_name}`}
-                      src={replyAuthor.avatar}
+                      src={replyAuthor?.avatar}
                       sx={{ width: 24, height: 24 }}
                     />
                   </Grid>
-  
+
                   <Grid item>
                     <Typography variant="h6" component="h6" className={classes.replyTitle}>
                       {`${replyAuthor?.first_name} ${replyAuthor?.last_name}`}
@@ -219,11 +223,11 @@ const Comment = ({
                       </Typography>
                     </Typography>
                   </Grid>
-  
+
                   <Grid item xs={12} className={classes.replyMessage}>
                     {reply.comment_message}
                   </Grid>
-  
+
                   <Grid item xs={12} className={classes.replyLikeComment}>
                     {user && _.includes(reply.likes, user.core_user_uuid) && (
                       <IconButton onClick={(e) => likeComment('remove', reply)} className={classes.like}>
@@ -239,10 +243,13 @@ const Comment = ({
                     <Typography variant="body1" component="div" className={classes.like}>
                       {`${_.size(reply.likes)} ${_.size(reply.likes) > 1 ? 'likes' : 'like'}`}
                     </Typography>
-  
+
                     {user && (
                       <>
-                        <IconButton className={classes.reply} onClick={(e) => setShowInput(reply.comment_uuid)}>
+                        <IconButton
+                          className={classes.reply}
+                          onClick={(e) => setShowInput(reply.comment_uuid)}
+                        >
                           <Edit />
                         </IconButton>
                         <Typography variant="body1" component="div" className={classes.reply}>
@@ -262,7 +269,7 @@ const Comment = ({
                 <Grid item xs={1} className={classes.commentAvatar}>
                   <Avatar variant="rounded" alt={`${user.first_name} ${user.last_name}`} src={user.avatar} />
                 </Grid>
-      
+
                 <Grid item xs={11}>
                   <TextField
                     variant="outlined"
@@ -281,7 +288,7 @@ const Comment = ({
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </Grid>
-      
+
                 <Button
                   type="button"
                   variant="contained"
