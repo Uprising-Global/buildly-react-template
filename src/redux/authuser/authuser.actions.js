@@ -47,6 +47,10 @@ export const ADD_SUBSCRIBER = 'AUTH/ADD_SUBSCRIBER';
 export const ADD_SUBSCRIBER_SUCCESS = 'AUTH/ADD_SUBSCRIBER_SUCCESS';
 export const ADD_SUBSCRIBER_FAILURE = 'AUTH/ADD_SUBSCRIBER_FAILURE';
 
+export const UPDATE_PROFILE = 'AUTH/UPDATE_PROFILE';
+export const UPDATE_PROFILE_SUCCESS = 'AUTH/UPDATE_PROFILE_SUCCESS';
+export const UPDATE_PROFILE_FAIL = 'AUTH/UPDATE_PROFILE_FAIL';
+
 /**
  * Login action
  * @param {{ username, password }} credentials
@@ -124,3 +128,14 @@ export const updateOrganization = (uuid) => ({
  * @param {{ email }} data
  */
 export const addSubscriber = (data) => ({ type: ADD_SUBSCRIBER, data });
+
+/**
+ * Update user action
+ * @param userId
+ * @param data
+ */
+export const updateProfile = (userId, data) => ({
+  type: UPDATE_PROFILE,
+  userId,
+  data,
+});

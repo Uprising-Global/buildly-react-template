@@ -64,3 +64,16 @@ describe('actions', () => {
     expect(actions.addSubscriber(data)).toEqual(expectedAction);
   });
 });
+
+describe('actions', () => {
+  it('should create an action to update user profile', () => {
+    const userId = 1;
+    const data = { first_name: 'TestUser', last_name: '1' };
+    const expectedAction = {
+      userId,
+      data,
+      type: actions.UPDATE_PROFILE,
+    };
+    expect(actions.updateProfile(userId, data)).toEqual(expectedAction);
+  });
+});

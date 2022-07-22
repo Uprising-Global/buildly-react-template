@@ -1,4 +1,5 @@
 import { getUser } from '@context/User.context';
+import _ from 'lodash';
 import {
   LOGIN,
   LOGIN_SUCCESS,
@@ -28,6 +29,9 @@ import {
   GET_ORGANIZATION_SUCCESS,
   GET_ORGANIZATION_FAILURE,
   LOGOUT_SUCCESS,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from '@redux/authuser/authuser.actions';
 
 const initialState = {
@@ -54,7 +58,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         loaded: true,
-        data: action.user.data,
+        data: action.user && action.user.data,
       };
 
     case LOGIN_FAIL:
@@ -268,6 +272,30 @@ export default (state = initialState, action) => {
         loading: false,
         loaded: true,
         organizationData: null,
+        error: action.error,
+      };
+
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        error: null,
+      };
+
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        data: { ...state.data, ...action.user },
+      };
+
+    case UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
         error: action.error,
       };
 

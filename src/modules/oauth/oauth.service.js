@@ -111,6 +111,21 @@ function logout() {
   }
 }
 
+function updateUser(user) {
+  if (user) {
+    const oauthUser = JSON.parse(localStorage.getItem('oauthUser'));
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    oauthUser.data = { ...oauthUser.data, ...user };
+    currentUser = { ...currentUser, ...user };
+
+    localStorage.removeItem('oauthUser');
+    localStorage.removeItem('currentUser');
+    localStorage.setItem('oauthUser', JSON.stringify(oauthUser));
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  }
+}
+
 export const oauthService = {
   authenticateWithPasswordFlow,
   getOauthUser,
@@ -121,4 +136,5 @@ export const oauthService = {
   getJwtToken,
   logout,
   setCurrentCoreUser,
+  updateUser,
 };

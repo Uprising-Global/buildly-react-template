@@ -13,6 +13,8 @@ export const routes = {
   FILM_UPDATE: '/film-update',
   APP: '/app',
   DASHBOARD: '/app/dashboard',
+  PROFILE: '/app/dashboard/profile',
+  GENERAL: '/app/dashboard/general',
   USER_MANAGEMENT: '/app/profile/users',
   CURRENT_USERS: '/app/profile/users/current-users',
   USER_GROUPS: '/app/profile/users/groups',

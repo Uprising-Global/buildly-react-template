@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { UserContext, getUser } from '@context/User.context';
 import TopBar from '@layout/TopBar/TopBar';
-import Profile from '@pages/Profile/Profile';
 import UserManagement from '@pages/UserManagement/UserManagement';
 import makeStyles from '@mui/styles/makeStyles';
 import { routes } from '@routes/routesConstants';
@@ -20,6 +19,7 @@ import Projects from '@pages/Projects/Projects';
 import Blogs from '@pages/Blogs/Blogs';
 import FilmDetails from '@pages/FilmDetails/FilmDetails';
 import UpdateDetails from '@pages/FilmDetails/components/UpdateDetails';
+import Dashboard from '@pages/Dashboard/Dashboard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +67,7 @@ const Container = ({ location, history }) => {
           <Route path={routes.JOBS} component={Jobs} />
           <Route path={routes.FAQS} component={Faqs} />
           <Route path={routes.PRIVACY_POLICY} component={PrivacyPolicy} />
-          <PrivateRoute path={routes.DASHBOARD} component={Profile} />
+          <PrivateRoute path={routes.DASHBOARD} component={Dashboard} />
           <PrivateRoute path={routes.USER_MANAGEMENT} component={UserManagement} />
           <Route exact path={routes.HOME} component={Home} />
         </div>

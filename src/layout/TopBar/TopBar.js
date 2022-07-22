@@ -8,6 +8,7 @@ import {
   Logout as LogoutIcon,
   ManageAccounts as ManageAccountsIcon,
   Menu as MenuIcon,
+  Dashboard as DashboardIcon,
 } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 import logo from '@assets/topbar-logo.png';
@@ -158,6 +159,13 @@ const TopBar = ({
           </MenuItem>
           )}
           {isAdmin && <Divider />}
+          <MenuItem onClick={(e) => setAnchorEl(null)}>
+            <DashboardIcon className={classes.menuIcon} fontSize="small" />
+            <Link className={classes.menuLink} to={routes.DASHBOARD}>
+              <ListItemText primary="Dashboard" />
+            </Link>
+          </MenuItem>
+          <Divider />
           <MenuItem onClick={handleLogoutClick}>
             <LogoutIcon className={classes.menuIcon} fontSize="small" />
             <ListItemText primary="LogOut" />

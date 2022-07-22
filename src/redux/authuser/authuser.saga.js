@@ -33,6 +33,9 @@ import {
   ADD_SUBSCRIBER,
   ADD_SUBSCRIBER_SUCCESS,
   ADD_SUBSCRIBER_FAILURE,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from '@redux/authuser/authuser.actions';
 import {
   put, takeLatest, all, call,
@@ -407,6 +410,49 @@ function* addSubscriber(payload) {
   }
 }
 
+function* updateProfile(payload) {
+  const { userId } = payload;
+  try {
+    const response = yield call(
+      httpService.makeRequest,
+      'patch',
+      `${window.env.API_URL}coreuser/${userId}/update_profile/`,
+      payload.data,
+      '',
+      'multipart/form-data',
+    );
+    yield call(oauthService.updateUser, response.data);
+    yield [
+      yield put({
+        type: UPDATE_PROFILE_SUCCESS,
+        user: { id: userId, ...response.data },
+      }),
+      yield put(
+        showAlert({
+          type: 'success',
+          open: true,
+          message: 'Account details successfully updated!',
+        }),
+      ),
+    ];
+  } catch (error) {
+    console.error(error);
+    yield [
+      yield put(
+        showAlert({
+          type: 'error',
+          open: true,
+          message: 'Unable to update user details',
+        }),
+      ),
+      yield put({
+        type: UPDATE_PROFILE_FAIL,
+        error: 'Unable to update user details',
+      }),
+    ];
+  }
+}
+
 function* watchLogout() {
   yield takeLatest(LOGOUT, logout);
 }
@@ -451,6 +497,10 @@ function* watchAddSubscriber() {
   yield takeLatest(ADD_SUBSCRIBER, addSubscriber);
 }
 
+function* watchUpdateProfile() {
+  yield takeLatest(UPDATE_PROFILE, updateProfile);
+}
+
 export default function* authSaga() {
   yield all([
     watchLogin(),
@@ -464,5 +514,6 @@ export default function* authSaga() {
     watchGetUser(),
     watchGetOrganization(),
     watchAddSubscriber(),
+    watchUpdateProfile(),
   ]);
 }
