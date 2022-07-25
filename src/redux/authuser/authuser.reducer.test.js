@@ -130,7 +130,7 @@ describe('invite User reducer', () => {
 });
 
 describe('Update Profile reducer', () => {
-  it('update user profil Reducer', () => {
+  it('update user profile Reducer', () => {
     expect(
       reducer.default(initialState, { type: actions.UPDATE_PROFILE }),
     ).toEqual({
