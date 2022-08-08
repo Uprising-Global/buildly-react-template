@@ -20,6 +20,7 @@ import Blogs from '@pages/Blogs/Blogs';
 import FilmDetails from '@pages/FilmDetails/FilmDetails';
 import UpdateDetails from '@pages/FilmDetails/components/UpdateDetails';
 import Dashboard from '@pages/Dashboard/Dashboard';
+import Investment from '@pages/Investment/Investment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +58,11 @@ const Container = ({ location, history }) => {
             exact
             path={`${routes.FILM_UPDATE}/:update_uuid`}
             component={UpdateDetails}
+          />
+          <PrivateRoute
+            exact
+            path={`${routes.INVESTMENT}/:film_uuid`}
+            component={Investment}
           />
           <Route path={routes.LOGIN} component={Login} />
           <Route path={routes.REGISTER} component={Register} />

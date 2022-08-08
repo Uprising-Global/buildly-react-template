@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment-timezone';
 import {
-  Grid, Tab, Typography,
+  Button, Grid, Tab, Typography,
 } from '@mui/material';
 import {
   Facebook as FacebookIcon,
@@ -22,6 +22,7 @@ import Overview from './components/Overview';
 import CastCrew from './components/CastCrew';
 import Updates from './components/Updates';
 import Comments from './components/Comments';
+import { routes } from '@routes/routesConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -80,8 +81,17 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   investSection: {
-    paddingLeft: theme.spacing(4),
-    borderLeft: `1px dashed ${theme.palette.secondary.main}`,
+    display: 'flex',
+  },
+  sideHighlight: {
+    stroke: theme.palette.secondary.main,
+    strokeWidth: theme.spacing(0.5),
+  },
+  investImage: {
+    marginTop: theme.spacing(5),
+    width: theme.spacing(39),
+    height: theme.spacing(57),
+    borderRadius: theme.spacing(1),
   },
   button: {
     marginTop: theme.spacing(5),
@@ -107,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FilmDetails = ({
-  dispatch, loading, loaded, films, film_uuid, dealTerm, castCrew, filmUpdates,
+  dispatch, loading, loaded, films, film_uuid, dealTerm, castCrew, filmUpdates, history,
 }) => {
   const classes = useStyles();
   const [film, setFilm] = useState(null);
@@ -168,7 +178,7 @@ const FilmDetails = ({
           </Grid>
 
           <Grid container className={classes.detailsContainer}>
-            <Grid item xs={9} className={classes.leftSection}>
+            <Grid item xs={8} className={classes.leftSection}>
               <Grid container>
                 <Grid item xs={8}>
                   <Typography variant="h4" component="h4">
@@ -257,26 +267,34 @@ const FilmDetails = ({
               </Grid>
             </Grid>
 
-            <Grid item xs={3}>
-              {/* <Grid item xs={12} className={classes.investSection}>
-                <Typography variant="body1" component="div">
-                  Invest section will come here
-                </Typography>
+            <Grid item xs={4}>
+              <Grid item xs={12} className={classes.investSection}>
+                <svg width="50" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <line strokeDasharray="15" x1="0" y1="0" x2="0" y2="100%" className={classes.sideHighlight} />
+                </svg>
+                <div>
+                  <Typography variant="body1" component="div">
+                    Investment details will come here post integration
+                  </Typography>
 
-                <Button
-                  type="button"
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  fullWidth
-                >
-                  Invest
-                </Button>
+                  <img src={film.poster_url} alt={film.name} className={classes.investImage} />
 
-                <Typography variant="caption" component="div" className={classes.caption}>
-                  $100 minimum investment
-                </Typography>
-              </Grid> */}
+                  <Button
+                    type="button"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    fullWidth
+                    onClick={(e) => history.push(`${routes.INVESTMENT}/${film_uuid}`)}
+                  >
+                    Invest
+                  </Button>
+
+                  <Typography variant="caption" component="div" className={classes.caption}>
+                    $100 minimum investment
+                  </Typography>
+                </div>
+              </Grid>
 
               <Grid item xs={12} className={classes.dealSection}>
                 <Typography variant="h4" component="h4">
