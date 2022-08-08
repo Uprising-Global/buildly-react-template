@@ -23,7 +23,7 @@ jobs:
         yarn install
         yarn run build:dev
     - name: Build docker image
-      run: docker build -t ${{ IMAGE_NAME }}:latest .
+      run: docker build -t ${{ secrets.IMAGE_NAME }}:latest .
 
     - name: Push to Google Container Registry
-      run: docker push ${{ IMAGE_NAME }}:latest
+      run: docker push ${{ secrets.IMAGE_NAME }}:latest
