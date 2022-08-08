@@ -55,7 +55,7 @@ describe('Register reducer', () => {
     expect(
       reducer.default(initialState, { type: actions.REGISTER_SUCCESS }),
     ).toEqual({
-      error: null, loaded: true, loading: false, data: undefined,
+      error: null, loaded: true, loading: false, data: null,
     });
   });
   it('Register fail Reducer', () => {
@@ -71,7 +71,10 @@ describe('logout success reducer', () => {
   it('logout Reducer', () => {
     expect(
       reducer.default(initialState, { type: actions.LOGOUT_SUCCESS }),
-    ).toEqual(initialState);
+    ).toEqual({
+      ...initialState,
+      loaded: true,
+    });
   });
 });
 
@@ -122,6 +125,44 @@ describe('invite User reducer', () => {
       reducer.default(initialState, { type: actions.INVITE_FAIL }),
     ).toEqual({
       error: undefined, loaded: true, loading: false, data: null,
+    });
+  });
+});
+
+describe('Update Profile reducer', () => {
+  it('update user profile Reducer', () => {
+    expect(
+      reducer.default(initialState, { type: actions.UPDATE_PROFILE }),
+    ).toEqual({
+      ...initialState,
+      error: null,
+      loaded: false,
+      loading: true,
+      data: null,
+    });
+  });
+
+  it('update user profile success Reducer', () => {
+    expect(
+      reducer.default(initialState, { type: actions.UPDATE_PROFILE_SUCCESS }),
+    ).toEqual({
+      ...initialState,
+      error: null,
+      loaded: true,
+      loading: false,
+      data: {},
+    });
+  });
+
+  it('update user fail Reducer', () => {
+    expect(
+      reducer.default(initialState, { type: actions.UPDATE_PROFILE_FAIL }),
+    ).toEqual({
+      ...initialState,
+      error: undefined,
+      loaded: true,
+      loading: false,
+      data: null,
     });
   });
 });

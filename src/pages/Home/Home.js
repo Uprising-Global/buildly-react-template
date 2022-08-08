@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
-  Button, Card, CardContent, CardMedia, Chip, Grid, Typography,
+  Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Typography,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import arrow from '@assets/arrow.svg';
 import WallImage from '@assets/wall-image.png';
 import Loader from '@components/Loader/Loader';
 import { getAllFilms } from '@redux/project/project.actions';
+import { routes } from '@routes/routesConstants';
 
 const useStyles = makeStyles((theme) => ({
   section1: {
-    minHeight: theme.spacing(50),
+    height: theme.spacing(135),
     paddingBottom: theme.spacing(20),
     backgroundImage: `url(${WallImage})`,
-    backgroundRepeat: 'round',
     '& h2': {
       paddingLeft: theme.spacing(15),
       textTransform: 'uppercase',
@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
   grid2: {
     paddingTop: theme.spacing(6),
     textAlign: 'center',
-    // borderTop: `2px dashed ${theme.palette.primary.contrastText}`,
   },
   section3: {
     backgroundColor: '#253238',
@@ -92,8 +91,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = ({ dispatch, loading, films }) => {
+const Home = ({ dispatch, loading, films, history }) => {
   const classes = useStyles();
+  const scrollRef = useRef(null);
   const [openFilms, setOpenFilms] = useState([]);
 
   useEffect(() => {
@@ -105,6 +105,10 @@ const Home = ({ dispatch, loading, films }) => {
       setOpenFilms(_.filter(films, { status: 'Open' }));
     }
   }, [films]);
+
+  const handleClick = () => {
+    scrollRef.current?.scrollIntoView({behavior: 'smooth'});
+  };
 
   return (
     <Grid container>
@@ -124,13 +128,13 @@ const Home = ({ dispatch, loading, films }) => {
           <Typography variant="body1">
             Join the Uprising
           </Typography>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={handleClick}>
             Discover Stories
           </Button>
         </div>
       </Grid>
 
-      <Grid item xs={12} className={classes.section2}>
+      <Grid item xs={12} className={classes.section2} ref={scrollRef}>
         <Grid item className={classes.grid1}>
           <Typography variant="h4" color="secondary" className={classes.title}>
             Invest now
@@ -149,32 +153,34 @@ const Home = ({ dispatch, loading, films }) => {
             {openFilms && !_.isEmpty(openFilms) && _.map(openFilms, (film) => (
               <Grid item key={film.film_uuid}>
                 <Card variant="outlined">
-                  <CardMedia
-                    component="img"
-                    height="240"
-                    image={film.poster_url}
-                    alt={film.name}
-                  />
-                  <CardContent>
-                    <div className={classes.chipContainer}>
-                      {_.map(film.genre, (genre, idx) => (
-                        <Chip key={`${genre}-${idx}`} label={genre} color="primary" />
-                      ))}
-                    </div>
-                    <Typography gutterBottom variant="h5" component="h5">
-                      {film.name}
-                    </Typography>
-                    <Typography variant="body1">
-                      {film.description}
-                    </Typography>
-                  </CardContent>
+                  <CardActionArea onClick={(e) => history.push(`${routes.FILM}/${film.film_uuid}`)}>
+                    <CardMedia
+                      component="img"
+                      height="240"
+                      image={film.poster_url}
+                      alt={film.name}
+                    />
+                    <CardContent>
+                      <div className={classes.chipContainer}>
+                        {_.map(film.genre, (genre, idx) => (
+                          <Chip key={`${genre}-${idx}`} label={genre} color="primary" />
+                        ))}
+                      </div>
+                      <Typography gutterBottom variant="h5" component="h5">
+                        {film.name}
+                      </Typography>
+                      <Typography variant="body1">
+                        {film.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
                 </Card>
               </Grid>
             ))}
           </Grid>
         </Grid>
 
-        <svg height="1" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="1" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <line strokeDasharray="15" x1="0" x2="100%" className={classes.bottomHighlight} />
         </svg>
 
